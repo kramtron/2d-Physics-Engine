@@ -32,6 +32,7 @@ public:
 	float cf = 0.8f;//Coeficiente de friccon
 
 	bool physicObject = false;
+	bool physEnable = true;
 
 	bool circle = false;
 	bool rectangle = false;
@@ -82,12 +83,8 @@ private:
 	//Calcula la fuerza de los objetos No tocar
 	void Force();
 
-	
-
-	bool physEnable=true;
 	//Integrador por verlet
 	void Integrator_Verlet();
-
 public:
 	//Funcion para calcular todas las fuerzas del objeto LLamar siempre que el objeto no sea estatico
 	void PhysicUpdate();
@@ -123,6 +120,12 @@ public:
 
 	//Calcula los colliders de los objetos No tocar
 	ObjectDef* Colliders(p2List_item<ObjectDef*>* object, p2List_item<ObjectDef*>* object2,int a);
+	void CollisionSolver(ObjectDef* b);
+	void Collision_BallBall(ObjectDef* b, ObjectDef* b2);
+	void Collision_BallEnemy(ObjectDef* b, ObjectDef* e);
+	void Collision_PlayerEnemy(ObjectDef* p, ObjectDef* e);
+	bool Collision_Rectangle_Detection(SDL_Rect r1, SDL_Rect r2);
+
 private:
 
 	bool debug;

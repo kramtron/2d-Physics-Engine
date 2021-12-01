@@ -45,65 +45,32 @@ bool ModulePhysics::Start()
 // 
 update_status ModulePhysics::PreUpdate()
 {
-	
-	
-	if (ball.getFirst() != NULL) {
-
-		p2List_item<ObjectDef*>* storage = ball.getFirst();
-
-		while (storage != NULL) {
-			p2List_item<ObjectDef*>* storage2 = enemic.getFirst();
-			p2List_item<ObjectDef*>* storage3 = player.getFirst();
-
-			if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
-				storage->data->StopPhysics();
-			}
-			if (storage2 != NULL) {
-				if (storage->data->physicObject == true) {
-					storage->data->PhysicUpdate();
-					while (storage2 != NULL) {
-						Colliders(storage, storage3, 90);
-						Colliders(storage, storage2, 90);
-						storage2 = storage2->next;
-					}
-				}
-				storage = storage->next;
-
-			}
-			else {
-
-				if (storage->data->physicObject == true) {
-
-					storage->data->PhysicUpdate();
-					Colliders(storage, storage2, 90);
-
-				}
-				storage = storage->next;
-
-
-				storage2 = storage2->next;
-			}
+	//Ball Physics
+	p2List_item<ObjectDef*>* current_ball = ball.getFirst();
+	while (current_ball != NULL) {
+		if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
+			current_ball->data->StopPhysics();
 		}
-	}
-	p2List_item<ObjectDef*>* storage4 = player.getFirst();
-	while (storage4 != NULL) {
-		p2List_item<ObjectDef*>* storage2 = enemic.getFirst();
-		if (storage4->data->physicObject) {
-
-			storage4->data->PhysicUpdate();
+		if (current_ball->data->physEnable) {
+			current_ball->data->PhysicUpdate();
+			App->physics->CollisionSolver(current_ball->data);
 		}
-		while (storage2 != NULL) {
-
-
-				Colliders(storage4, storage2, 90);
-
-			
-			storage2 = storage2->next;
-		}
-		storage4 = storage4->next;
+		current_ball = current_ball->next;
 	}
 
-	//LOG("Numeros de objetos en la lista : %d", ball.count());
+	//Player Physics
+	p2List_item<ObjectDef*>* current_player = player.getFirst();
+	while (current_player != NULL) {
+		if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
+			current_player->data->StopPhysics();
+		}
+		if (current_player->data->physEnable) {
+			current_player->data->PhysicUpdate();
+			App->physics->CollisionSolver(current_player->data);
+		}
+		current_player = current_player->next;
+	}
+
 
 	return UPDATE_CONTINUE;
 }
@@ -492,16 +459,88 @@ void ObjectDef::StopPhysics() {
 }
 
 void ObjectDef::PhysicUpdate() {
-	
-	if (physEnable) {
-		fx = fy = 0.0f;
-		ax = ay = 0.0f;
+	fx = fy = 0.0f;
+	ax = ay = 0.0f;
 
+	Gravity();
+	Force();
+	Velocity();
+	Acceleration();
+	Integrator_Verlet();
+}
 
-		Gravity();
-		Force();
-		Velocity();
-		Acceleration();
-		Integrator_Verlet();
+void ModulePhysics::CollisionSolver(ObjectDef* b) {
+	if (b->player) {	//player
+		p2List_item<ObjectDef*>* current_enemy = enemic.getFirst();
+		while (current_enemy != NULL) {
+			Collision_PlayerEnemy(b, current_enemy->data);
+			current_enemy = current_enemy->next;
+		}
 	}
+	else {			//ball
+		p2List_item<ObjectDef*>* current_enemy = enemic.getFirst();
+		while (current_enemy != NULL) {
+			Collision_BallEnemy(b, current_enemy->data);
+			current_enemy = current_enemy->next;
+		}
+		p2List_item<ObjectDef*>* current_player = player.getFirst();
+		while (current_player != NULL) {
+			Collision_BallEnemy(b, current_player->data);
+			current_player = current_player->next;
+		}
+		p2List_item<ObjectDef*>* current_ball = ball.getFirst();
+		while (current_ball != NULL) {
+			if (current_ball->data != b)
+				Collision_BallBall(b, current_ball->data);
+			current_ball = current_ball->next;
+		}
+	}
+}
+
+void ModulePhysics::Collision_BallBall(ObjectDef* b, ObjectDef* b2) {	//ball against ball
+
+}
+
+void ModulePhysics::Collision_BallEnemy(ObjectDef* b, ObjectDef* e) {	//ball against collider(collider sent)
+	if (Collision_Rectangle_Detection({ b->x, b->y, b->r, b->r }, { b->x, b->y, b->w, b->h })) {
+		if (Collision_Rectangle_Detection({ b->x, b->y - b->vy, b->r, b->r }, { b->x, b->y, b->w, b->h })) {
+			if (b->vx > 0) { //Right colision
+				b->x -= 2 * (b->x - (e->x - b->r));
+			}
+			else { //Left colision
+				b->x += 2 * (-b->x + (e->x + e->w + b->r));
+			}
+			b->vy = b->vy * b->cr;
+			b->vx = -b->vx * b->cr;
+		}
+		else if (Collision_Rectangle_Detection({ b->x - b->vx, b->y, b->r, b->r }, { b->x, b->y, b->w, b->h })) {
+			if (b->vy > 0) { //Floor colision
+				b->y -= 2 * (b->y - (e->y - b->r));
+			}
+			else { //Ceiling colision
+				b->y += 2 * (-b->y + (e->y + e->h + b->r));
+			}
+			b->vy = -b->vy * b->cr;
+			b->vx = b->vx * b->cr;
+		}
+		else {
+			if (b->vy > 0) { //floor colision
+				b->y = e->y - b->r;
+			}
+			else {	//ceiling colision
+				b->y = e->y + e->h + b->r;
+			}
+
+			b->vy = -b->vy * b->cr;
+			b->vx = -b->vx * b->cr;
+		}
+	}
+}
+
+void ModulePhysics::Collision_PlayerEnemy(ObjectDef* p, ObjectDef* e) {	//ball against collider(collider sent)
+
+}
+
+bool ModulePhysics::Collision_Rectangle_Detection(SDL_Rect r1, SDL_Rect r2) {
+	return (((r1.x + r1.w) > r2.x) && (r1.x < (r2.x + r2.w)) && ((r1.y + r1.h) > r2.y) && (r1.y < (r2.y + r2.h)));
 }
