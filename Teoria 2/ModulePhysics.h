@@ -23,10 +23,6 @@ public:
 
 	float fgx = 0, fgy = 0;
 
-	int nv = 0;//Velocidad normal
-
-	int angle = 0;//Angulo de disparo de la pelota
-
 	//Aerodynamics stuff
 	int surface;//Effective wet surface
 	int cl;//Lift coeficient
@@ -47,10 +43,6 @@ public:
 
 	float angleToRadiants(int angle);
 
-	void createStaticBody();//No fet
-
-	void createCircle(int x, int y, int r);//No fet
-
 	//Modifica la posición del objeto
 	void SetPlayerPosition(int x, int y);
 
@@ -66,22 +58,13 @@ public:
 	//Modifica la fuerza dada al objeto
 	void SetForce(int x, int y);
 
-	//Modifica la velocidad normal del objeto
-	void SetNormalVelocity(int nv);
-
-	//Modifica el angulo del objeto en caso de querer usarlo para tiros parabolicos
-	void SetAngle(int angle);
 
 	void StopPhysics();
 
 	//Te devuelve la masa del objeto
 	int GetPlayerMass();
 
-	//Te devuelve la velocidad normal del objeto
-	int GetNormalVelocity();
-
-	//Te devuelve el angulo del objeto
-	int GetAngle();
+	
 
 
 

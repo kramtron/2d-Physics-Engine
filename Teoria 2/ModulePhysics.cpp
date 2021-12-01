@@ -359,24 +359,10 @@ void ObjectDef::SetForce(int x, int y) {
 };
 
 
-void ObjectDef::SetNormalVelocity(int nv) {
-	this->nv = nv;
-}
 
 
-void ObjectDef::SetAngle(int angle) {
-	this->angle = angle;
-}
 
 
-int ObjectDef::GetNormalVelocity() {
-	return nv;
-}
-
-
-int ObjectDef::GetAngle() {
-	return angle;
-}
 
 
 void ObjectDef::Integrator_Verlet() {
