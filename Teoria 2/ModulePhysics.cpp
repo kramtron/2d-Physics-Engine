@@ -502,8 +502,8 @@ void ModulePhysics::Collision_BallBall(ObjectDef* b, ObjectDef* b2) {	//ball aga
 }
 
 void ModulePhysics::Collision_BallEnemy(ObjectDef* b, ObjectDef* e) {	//ball against collider(collider sent)
-	if (Collision_Rectangle_Detection({ b->x, b->y, b->r, b->r }, { b->x, b->y, b->w, b->h })) {
-		if (Collision_Rectangle_Detection({ b->x, b->y - b->vy, b->r, b->r }, { b->x, b->y, b->w, b->h })) {
+	if (Collision_Rectangle_Detection(f_Rect( b->x, b->y, b->r, b->r ), f_Rect( b->x, b->y, b->w, b->h ))) {
+		if (Collision_Rectangle_Detection(f_Rect(b->x, b->y - b->vy, b->r, b->r ), f_Rect(b->x, b->y, b->w, b->h ))) {
 			if (b->vx > 0) { //Right colision
 				b->x -= 2 * (b->x - (e->x - b->r));
 			}
@@ -513,7 +513,7 @@ void ModulePhysics::Collision_BallEnemy(ObjectDef* b, ObjectDef* e) {	//ball aga
 			b->vy = b->vy * b->cr;
 			b->vx = -b->vx * b->cr;
 		}
-		else if (Collision_Rectangle_Detection({ b->x - b->vx, b->y, b->r, b->r }, { b->x, b->y, b->w, b->h })) {
+		else if (Collision_Rectangle_Detection(f_Rect(b->x - b->vx, b->y, b->r, b->r ), f_Rect(b->x, b->y, b->w, b->h ))) {
 			if (b->vy > 0) { //Floor colision
 				b->y -= 2 * (b->y - (e->y - b->r));
 			}
@@ -541,6 +541,6 @@ void ModulePhysics::Collision_PlayerEnemy(ObjectDef* p, ObjectDef* e) {	//ball a
 
 }
 
-bool ModulePhysics::Collision_Rectangle_Detection(SDL_Rect r1, SDL_Rect r2) {
+bool ModulePhysics::Collision_Rectangle_Detection(f_Rect r1, f_Rect r2) {
 	return (((r1.x + r1.w) > r2.x) && (r1.x < (r2.x + r2.w)) && ((r1.y + r1.h) > r2.y) && (r1.y < (r2.y + r2.h)));
 }

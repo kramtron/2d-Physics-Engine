@@ -2,6 +2,16 @@
 #include "Module.h"
 #include "Globals.h"
 
+struct f_Rect {
+	float x = 0.0f, y = 0.0f, w = 0.0f, h = 0.0f;
+	f_Rect(float x, float y, float w, float h) {
+		this->x = x;
+		this->y = y;
+		this->w = w;
+		this->h = h;
+	}
+};
+
 class ObjectDef {
 public:
 
@@ -124,7 +134,7 @@ public:
 	void Collision_BallBall(ObjectDef* b, ObjectDef* b2);
 	void Collision_BallEnemy(ObjectDef* b, ObjectDef* e);
 	void Collision_PlayerEnemy(ObjectDef* p, ObjectDef* e);
-	bool Collision_Rectangle_Detection(SDL_Rect r1, SDL_Rect r2);
+	bool Collision_Rectangle_Detection(f_Rect r1, f_Rect r2);
 
 private:
 
