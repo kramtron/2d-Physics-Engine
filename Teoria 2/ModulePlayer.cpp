@@ -18,9 +18,8 @@ bool ModulePlayer::Start()
 
 
 
+	App->physics->enemic.add(App->physics->createStaticRectangle(0, 600, 1200, 20));
 
-
-	floor = { 0,600,1200,20 };
 
 	LOG("Loading player");
 	return true;
@@ -201,12 +200,9 @@ update_status ModulePlayer::Update()
 
 	
 
-	App->renderer->DrawQuad(floor, 255, 255, 0);
 	//GetPlayerPosition(player);
 
 	
-	playerRect = { 20,540,30,60 };
-	App->renderer->DrawQuad(playerRect, 255, 0, 0);
 	
 
 	
