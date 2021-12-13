@@ -278,10 +278,22 @@ void ObjectDef::Gravity() {
 };
 
 
+void ObjectDef::Drag() {
+
+	//vel relativa del obj
+	
+	v_relativa_x = v_vent - vx;
+
+	//Drag del proj
+
+	F_Drag = 0.5 * densitat * (v_relativa_x * v_relativa_x) * superficie_Drag * cd;
+
+}
+
 void ObjectDef::Force() {
 
 	
-	fx += fgx;
+	fx += fgx - F_Drag;
 	fy += fgy;
 
 
@@ -362,9 +374,15 @@ ObjectDef* ModulePhysics::Colliders(p2List_item<ObjectDef*>* bala, p2List_item<O
 		if (bala->data->player) {
 			//bala->data->cr = 0,6;
 			//Mira si colisiona con el suelo. Mas adelante se tiene que hacer que el suelo sea parte de object2
-			if (bala->data->y + bala->data->h > App->player->floor.y) {
+			/*if (bala->data->y + bala->data->h > App->player->floor.y) {
 				bala->data->y += App->player->floor.y - (bala->data->y + bala->data->h);
 				bala->data->vy = (- bala->data->vy * bala->data->cr)/bala->data->mass;
+				bala->data->vx = bala->data->vx * bala->data->cf;
+
+			}*/
+			if (bala->data->y > App->player->floor.y) {
+				bala->data->y += App->player->floor.y - (bala->data->y + bala->data->h);
+				bala->data->vy = (- bala->data->vy * bala->data->cr);
 				bala->data->vx = bala->data->vx * bala->data->cf;
 
 			}
@@ -463,6 +481,7 @@ void ObjectDef::PhysicUpdate() {
 	ax = ay = 0.0f;
 
 	Gravity();
+	Drag();
 	Force();
 	Velocity();
 	Acceleration();

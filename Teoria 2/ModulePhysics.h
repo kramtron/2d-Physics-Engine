@@ -33,6 +33,10 @@ public:
 
 	float fgx = 0, fgy = 0;
 
+	float v_vent = 0;
+
+	float F_Drag = 0, densitat = 1, v_relativa_x = 0, superficie_Drag = 0.3f, cd = 0.2f;
+
 	//Aerodynamics stuff
 	int surface;//Effective wet surface
 	int cl;//Lift coeficient
@@ -83,6 +87,9 @@ public:
 private:
 	//Calcula la gravedad de los objetos No tocar
 	void Gravity();
+
+	//Calcula el Drag
+	void Drag();
 
 	//Calcula la velocidad de los objetos No tocar
 	void Velocity();
