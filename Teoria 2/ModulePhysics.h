@@ -33,14 +33,14 @@ public:
 
 	float fgx = 0, fgy = 0;
 
-	float v_vent = 0;
+	float v_vent = 10;
 
 	float F_Drag = 0, densitat = 1, v_relativa_x = 0, superficie_Drag = 0.3f, cd = 0.2f;
 
 	//Aerodynamics stuff
-	int surface;//Effective wet surface
-	int cl;//Lift coeficient
-	int cd;//Drag Coeficient
+	//int surface;//Effective wet surface
+	//int cl;//Lift coeficient
+	//int cd;//Drag Coeficient
 
 	float cr = 0.6f;//Coeficiente de restitucion
 	float cf = 0.8f;//Coeficiente de friccon

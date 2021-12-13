@@ -288,12 +288,14 @@ void ObjectDef::Drag() {
 
 	F_Drag = 0.5 * densitat * (v_relativa_x * v_relativa_x) * superficie_Drag * cd;
 
+	LOG("Drag: %f", F_Drag);
+
 }
 
 void ObjectDef::Force() {
 
 	
-	fx += fgx - F_Drag;
+	fx += fgx + F_Drag;
 	fy += fgy;
 
 
