@@ -35,7 +35,12 @@ public:
 
 	float v_vent = 10;
 
-	float F_Drag = 0, densitat = 1, v_relativa_x = 0, superficie_Drag = 0.3f, cd = 0.2f;
+	float f_Drag = 0, densitat = 1, v_relativa_x = 0, superficie_Drag = 0.3f, cd = 0.2f;
+
+	//fb = f_density * volume * 9.81
+	//density of water = 1g/cm^3 = 1000kg/m^3
+	//volume = volumen sumergido del objeto
+	float fb = 0, f_density = 0, volume = 0;
 
 	//Aerodynamics stuff
 	//int surface;//Effective wet surface
