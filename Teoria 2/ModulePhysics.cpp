@@ -55,6 +55,10 @@ update_status ModulePhysics::PreUpdate()
 			current_ball->data->PhysicUpdate();
 			App->physics->CollisionSolver(current_ball->data);
 		}
+
+		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+			current_ball->data->force = true;
+
 		current_ball = current_ball->next;
 	}
 
@@ -499,10 +503,11 @@ void ObjectDef::PhysicUpdate() {
 	fx = fy = 0.0f;
 	ax = ay = 0.0f;
 
-	/*if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+	if (force)
 	{
-		fy += 100;
-	}*/
+		fy += 10000;
+		force = false;
+	}
 
 	Gravity();
 	Drag();

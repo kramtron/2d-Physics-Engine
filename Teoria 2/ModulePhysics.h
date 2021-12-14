@@ -15,6 +15,8 @@ struct f_Rect {
 class ObjectDef {
 public:
 
+//	friend class Module;
+
 	//std::string ObjectType;
 
 	float r = 0;//radio de circulos
@@ -57,6 +59,8 @@ public:
 	bool circle = false;
 	bool rectangle = false;
 	bool player = false;
+
+	bool force = false;
 public:
 	
 	ObjectDef();
