@@ -35,8 +35,8 @@ bool ModulePhysics::Start()
 	//enemic.add(createStaticRectangle(700, 0, 40, 300));
 	//enemic.add(createStaticRectangle(580, 0, 40, 100));
 
-	player.add(App->physics->createDinamicPlayer(300, 620, 30, 60,40));
-	player.add(App->physics->createDinamicPlayer(800, 625, 30, 60,10));
+	player.add(App->physics->createDinamicPlayer(300, 440, 30, 60,40));
+	player.add(App->physics->createDinamicPlayer(800, 440, 30, 60,10));
 	/*player.add(createStaticRectangle(300, 00, 30, 60));
 	player.add(createStaticRectangle(800, 00, 30, 60));*/
 	return true;
@@ -97,7 +97,7 @@ ObjectDef* ModulePhysics::createCircle(int x, int y, int r) {
 
 }
 
-ObjectDef* ModulePhysics::createStaticRectangle(float x, float y, float w,float h) {
+ObjectDef* ModulePhysics::createStaticRectangle(float x, float y, float w,float h,float water) {
 
 	ObjectDef* pobject = new ObjectDef();
 
@@ -110,9 +110,14 @@ ObjectDef* ModulePhysics::createStaticRectangle(float x, float y, float w,float 
 	
 	pobject->rectangle = true;
 	 
+	if (water == 1) {
+		pobject->water = true;
+	}
+
 	return pobject;
 
 }
+
 ObjectDef* ModulePhysics::createDinamicPlayer(float x, float y, float w, float h, float mass) {
 	ObjectDef* pobject = new ObjectDef();
 
@@ -122,6 +127,8 @@ ObjectDef* ModulePhysics::createDinamicPlayer(float x, float y, float w, float h
 	pobject->h = h;
 
 	pobject->mass = mass;
+
+	pobject->cr = 0;
 
 	pobject->physicObject = true;
 
@@ -212,8 +219,14 @@ update_status ModulePhysics::PostUpdate()
 		while (storageEnemics != NULL) {
 
 			if (storageEnemics->data->rectangle) {
-				SDL_Rect rect = { storageEnemics->data->x,storageEnemics->data->y,storageEnemics->data->w,storageEnemics->data->h };
-				App->renderer->DrawQuad(rect, 250, 250, 0);
+				if (!storageEnemics->data->water) {
+					SDL_Rect rect = { storageEnemics->data->x,storageEnemics->data->y,storageEnemics->data->w,storageEnemics->data->h };
+					App->renderer->DrawQuad(rect, 250, 250, 0);
+				}
+				else if (storageEnemics->data->water) {
+					SDL_Rect rect = { storageEnemics->data->x,storageEnemics->data->y,storageEnemics->data->w,storageEnemics->data->h };
+					App->renderer->DrawQuad(rect, 0, 0, 250);
+				}
 			}
 
 			storageEnemics = storageEnemics->next;

@@ -28,7 +28,7 @@ bool ModuleSceneIntro::Start()
 	App->physics->enemic.add(App->physics->createStaticRectangle(380, 300, 250, 70));
 
 	//Agua
-	App->physics->enemic.add(App->physics->createStaticRectangle(0, 700, 1200, 100));
+	App->physics->enemic.add(App->physics->createStaticRectangle(0, 700, 1200, 100,1));
 
 
 	return ret;

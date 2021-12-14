@@ -35,7 +35,7 @@ public:
 
 	float fgx = 0, fgy = 0;
 
-	float v_vent = 10;
+	float v_vent = 25;
 
 	float f_Drag = 0, densitat = 1, v_relativa_x = 0, superficie_Drag = 0.3f, cd = 0.2f;
 
@@ -59,6 +59,7 @@ public:
 	bool circle = false;
 	bool rectangle = false;
 	bool player = false;
+	bool water = false;
 
 	bool force = false;
 public:
@@ -131,9 +132,13 @@ public:
 
 	//ObjectDef* createCircle(int x, int y, int r);//No fet
 	ObjectDef* createCircle(int x, int y, int r);//Crea un circulo con fisicas
-	ObjectDef* createStaticRectangle(float x, float y, float w, float h);//Crea un rectangulo sin fisicas
+
+	//1 en water en caso de querer que ese collider sea agua
+	ObjectDef* createStaticRectangle(float x, float y, float w, float h,float water=0);//Crea un rectangulo sin fisicas
 	ObjectDef* createDinamicPlayer(float x, float y, float w, float h, float mass);//Crea un rectangulo con fisicas
 	ObjectDef* UpdatePhysics();//No fet
+
+	
 	bool Start();
 	update_status PreUpdate();
 	update_status PostUpdate();
