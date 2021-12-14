@@ -286,16 +286,21 @@ void ObjectDef::Drag() {
 
 	//Drag del proj
 
-	F_Drag = 0.5 * densitat * (v_relativa_x * v_relativa_x) * superficie_Drag * cd;
+	f_Drag = 0.5 * densitat * (v_relativa_x * v_relativa_x) * superficie_Drag * cd;
 
-	LOG("Drag: %f", F_Drag);
+	LOG("Drag: %f", f_Drag);
 
+}
+
+void ObjectDef::Buoyancy() {
+	
+	fb = f_density * volume * gravity;
 }
 
 void ObjectDef::Force() {
 
 	
-	fx += fgx + F_Drag;
+	fx += fgx + f_Drag;
 	fy += fgy;
 
 
@@ -484,6 +489,7 @@ void ObjectDef::PhysicUpdate() {
 
 	Gravity();
 	Drag();
+	Buoyancy();
 	Force();
 	Velocity();
 	Acceleration();

@@ -40,7 +40,8 @@ public:
 	//fb = f_density * volume * 9.81
 	//density of water = 1g/cm^3 = 1000kg/m^3
 	//volume = volumen sumergido del objeto
-	float fb = 0, f_density = 0, volume = 0;
+	float fb = 0, f_density = 1, volume = 0;
+
 
 	//Aerodynamics stuff
 	//int surface;//Effective wet surface
@@ -95,6 +96,9 @@ private:
 
 	//Calcula el Drag
 	void Drag();
+
+	//Calcula Buoyancy
+	void Buoyancy();
 
 	//Calcula la velocidad de los objetos No tocar
 	void Velocity();
