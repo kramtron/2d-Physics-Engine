@@ -100,6 +100,8 @@ private:
 	//Calcula Buoyancy
 	void Buoyancy();
 
+	int Volume();
+
 	//Calcula la velocidad de los objetos No tocar
 	void Velocity();
 

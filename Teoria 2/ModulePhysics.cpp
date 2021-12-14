@@ -292,19 +292,31 @@ void ObjectDef::Drag() {
 
 }
 
+int ObjectDef::Volume() {
+
+	int vol = ((y + h) /*- y de l'aigua*/) * w;
+
+	return vol;
+}
+
 void ObjectDef::Buoyancy() {
 	
+	volume = Volume();
+
 	fb = f_density * volume * gravity;
 }
 
 void ObjectDef::Force() {
 
-	
+	//if(terra)
 	fx += fgx + f_Drag;
 	fy += fgy;
-
-
+	//else if(aigua)
+	//fx += fgx + f_Drag;
+	//fy += fgy - fb;
 };
+
+
 
 
 void ObjectDef::Velocity() {
