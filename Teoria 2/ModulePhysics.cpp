@@ -499,10 +499,10 @@ void ObjectDef::PhysicUpdate() {
 	fx = fy = 0.0f;
 	ax = ay = 0.0f;
 
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+	/*if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 	{
 		fy += 100;
-	}
+	}*/
 
 	Gravity();
 	Drag();
@@ -546,8 +546,8 @@ void ModulePhysics::Collision_BallBall(ObjectDef* b, ObjectDef* b2) {	//ball aga
 }
 
 void ModulePhysics::Collision_BallEnemy(ObjectDef* b, ObjectDef* e) {	//ball against collider(collider sent)
-	if (Collision_Rectangle_Detection(f_Rect( b->x, b->y, b->r, b->r ), f_Rect( e->x, e->y, e->w, e->h ))) {
-		if (Collision_Rectangle_Detection(f_Rect(b->x, b->y - b->vy, b->r, b->r ), f_Rect(e->x, e->y, e->w, e->h ))) {
+	if (Collision_Rectangle_Detection(f_Rect(b->x, b->y, b->r, b->r), f_Rect(e->x, e->y, e->w, e->h))) {
+		if (Collision_Rectangle_Detection(f_Rect(b->x, b->y - (b->vy * DELTA_TIME), b->r, b->r), f_Rect(e->x, e->y, e->w, e->h))) {
 			if (b->vx > 0) { //Right colision
 				b->x -= 2 * (b->x - (e->x - b->r));
 			}
@@ -557,7 +557,7 @@ void ModulePhysics::Collision_BallEnemy(ObjectDef* b, ObjectDef* e) {	//ball aga
 			b->vy = b->vy * b->cr;
 			b->vx = -b->vx * b->cr;
 		}
-		else if (Collision_Rectangle_Detection(f_Rect(b->x - b->vx, b->y, b->r, b->r ), f_Rect(e->x, e->y, e->w, e->h ))) {
+		else if (Collision_Rectangle_Detection(f_Rect(b->x - (b->vx * DELTA_TIME), b->y, b->r, b->r), f_Rect(e->x, e->y, e->w, e->h))) {
 			if (b->vy > 0) { //Floor colision
 				b->y -= 2 * (b->y - (e->y - b->r));
 			}
@@ -567,7 +567,7 @@ void ModulePhysics::Collision_BallEnemy(ObjectDef* b, ObjectDef* e) {	//ball aga
 			b->vy = -b->vy * b->cr;
 			b->vx = b->vx * b->cr;
 		}
-		else {
+		/*else {
 			if (b->vy > 0) { //floor colision
 				b->y = e->y - b->r;
 			}
@@ -577,7 +577,7 @@ void ModulePhysics::Collision_BallEnemy(ObjectDef* b, ObjectDef* e) {	//ball aga
 
 			b->vy = -b->vy * b->cr;
 			b->vx = -b->vx * b->cr;
-		}
+		}*/
 	}
 }
 
