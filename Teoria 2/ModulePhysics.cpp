@@ -499,6 +499,11 @@ void ObjectDef::PhysicUpdate() {
 	fx = fy = 0.0f;
 	ax = ay = 0.0f;
 
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+	{
+		fy += 100;
+	}
+
 	Gravity();
 	Drag();
 	Buoyancy();
