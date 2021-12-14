@@ -18,7 +18,6 @@ bool ModulePlayer::Start()
 
 
 
-	App->physics->enemic.add(App->physics->createStaticRectangle(0, 600, 1200, 20));
 
 
 	LOG("Loading player");

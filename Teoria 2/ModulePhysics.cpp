@@ -32,11 +32,11 @@ bool ModulePhysics::Start()
 	/*enemic.add(createStaticRectangle(700, 300, 40, 300));
 	enemic.add(createStaticRectangle(580, 500, 40, 100));*/
 
-	enemic.add(createStaticRectangle(700, 0, 40, 300));
-	enemic.add(createStaticRectangle(580, 0, 40, 100));
+	//enemic.add(createStaticRectangle(700, 0, 40, 300));
+	//enemic.add(createStaticRectangle(580, 0, 40, 100));
 
-	player.add(App->physics->createDinamicPlayer(300, 540, 30, 60,40));
-	player.add(App->physics->createDinamicPlayer(800, 535, 30, 60,10));
+	player.add(App->physics->createDinamicPlayer(300, 620, 30, 60,40));
+	player.add(App->physics->createDinamicPlayer(800, 625, 30, 60,10));
 	/*player.add(createStaticRectangle(300, 00, 30, 60));
 	player.add(createStaticRectangle(800, 00, 30, 60));*/
 	return true;

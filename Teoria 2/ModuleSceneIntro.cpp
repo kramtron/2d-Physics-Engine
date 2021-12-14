@@ -18,11 +18,18 @@ ModuleSceneIntro::~ModuleSceneIntro()
 // Load assets
 bool ModuleSceneIntro::Start()
 {
+
 	
 	LOG("Loading Intro assets");
 	bool ret = true;
+	//Suelos
+	App->physics->enemic.add(App->physics->createStaticRectangle(75, 500, 250, 70));
+	App->physics->enemic.add(App->physics->createStaticRectangle(700, 500, 250, 70));
+	App->physics->enemic.add(App->physics->createStaticRectangle(380, 300, 250, 70));
 
-	
+	//Agua
+	App->physics->enemic.add(App->physics->createStaticRectangle(0, 700, 1200, 100));
+
 
 	return ret;
 }
