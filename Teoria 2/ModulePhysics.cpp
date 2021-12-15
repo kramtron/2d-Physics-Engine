@@ -524,7 +524,7 @@ void ObjectDef::PhysicUpdate() {
 	}
 	LOG("Force %.2f", fy);
 	Gravity();
-	Drag();
+	//Drag();
 	Buoyancy();
 	Force();
 	Velocity();
@@ -551,12 +551,12 @@ void ModulePhysics::CollisionSolver(ObjectDef* b) {
 			Collision_BallEnemy(b, current_player->data);
 			current_player = current_player->next;
 		}
-		p2List_item<ObjectDef*>* current_ball = ball.getFirst();
+		/*p2List_item<ObjectDef*>* current_ball = ball.getFirst();
 		while (current_ball != NULL) {
 			if (current_ball->data != b)
 				Collision_BallBall(b, current_ball->data);
 			current_ball = current_ball->next;
-		}
+		}*/
 	}
 }
 
@@ -602,28 +602,28 @@ void ModulePhysics::Collision_BallEnemy(ObjectDef* b, ObjectDef* e) {	//ball aga
 
 void ModulePhysics::Collision_PlayerEnemy(ObjectDef* p, ObjectDef* e) {	//ball against collider(collider sent)
 	if (Collision_Rectangle_Detection(f_Rect(p->x, p->y, p->w, p->h), f_Rect(e->x, e->y, e->w, e->h))) {
-		if (Collision_Rectangle_Detection(f_Rect(p->x, p->y - p->vy, p->w, p->h), f_Rect(e->x, e->y, e->w, e->h))) {
+		if (Collision_Rectangle_Detection(f_Rect(p->x, p->y - (p->vy * DELTA_TIME), p->w, p->h), f_Rect(e->x, e->y, e->w, e->h))) {
 			if (p->vx > 0) { //Right colision
-				p->x -= 2 * (p->x - (e->x - p->w));
+				p->x = (e->x - p->w);
 			}
 			else { //Left colision
-				p->x += 2 * (-p->x + (e->x + e->w + p->w));
+				p->x = (e->x + e->w);
 			}
 			p->vy = p->vy * p->cr;
 			p->vx = -p->vx * p->cr;
 		}
-		else if (Collision_Rectangle_Detection(f_Rect(p->x - p->vx, p->y, p->w, p->h), f_Rect(e->x, e->y, e->w, e->h))) {
+		else if (Collision_Rectangle_Detection(f_Rect(p->x - (p->vx * DELTA_TIME), p->y, p->w, p->h), f_Rect(e->x, e->y, e->w, e->h))) {
 			if (p->vy > 0) { //Floor colision
-				p->y -= 2 * (p->y - (e->y - p->h));
+				p->y = (e->y - p->h);
 			}
 			else { //Ceiling colision
-				p->y += 2 * (-p->y + (e->y + e->h + p->h));
+				p->y = (e->y + e->h);
 			}
 			p->vy = -p->vy * p->cr;
 			p->vx = p->vx * p->cr;
 		}
-		else {
-			if (p->vy > 0) { //floor colision
+		/*else {
+			if (p->vy >= 0) { //floor colision
 				p->y = e->y - p->h;
 			}
 			else {	//ceiling colision
@@ -632,7 +632,7 @@ void ModulePhysics::Collision_PlayerEnemy(ObjectDef* p, ObjectDef* e) {	//ball a
 
 			p->vy = -p->vy * p->cr;
 			p->vx = -p->vx * p->cr;
-		}
+		}*/
 	}
 }
 
