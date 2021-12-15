@@ -15,6 +15,8 @@ struct f_Rect {
 class ObjectDef {
 public:
 
+	Application* app = nullptr;
+
 //	friend class Module;
 
 	//std::string ObjectType;

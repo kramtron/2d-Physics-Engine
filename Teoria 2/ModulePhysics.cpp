@@ -85,6 +85,8 @@ ObjectDef* ModulePhysics::createCircle(int x, int y, int r) {
 
 	ObjectDef* pobject = new ObjectDef();
 
+	pobject->app = App;
+
 	pobject->x = x;
 	pobject->y = y;
 	pobject->r = r;
@@ -100,6 +102,8 @@ ObjectDef* ModulePhysics::createCircle(int x, int y, int r) {
 ObjectDef* ModulePhysics::createStaticRectangle(float x, float y, float w,float h,float water) {
 
 	ObjectDef* pobject = new ObjectDef();
+
+	pobject->app = App;
 
 	pobject->x = x;
 	pobject->y = y;
@@ -120,6 +124,8 @@ ObjectDef* ModulePhysics::createStaticRectangle(float x, float y, float w,float 
 
 ObjectDef* ModulePhysics::createDinamicPlayer(float x, float y, float w, float h, float mass) {
 	ObjectDef* pobject = new ObjectDef();
+
+	pobject->app = App;
 
 	pobject->x = x;
 	pobject->y = y;
@@ -195,6 +201,9 @@ update_status ModulePhysics::PostUpdate()
 			return UPDATE_CONTINUE;
 
 
+		SDL_Rect rect = { App->scene_intro->aigua->x , App->scene_intro->aigua->y , App->scene_intro->aigua->w , App->scene_intro->aigua->h };
+		App->renderer->DrawQuad(rect, 0, 0, 250);
+
 		if (ball.getFirst() != NULL) {
 
 			p2List_item<ObjectDef*>* storage = ball.getFirst();
@@ -219,20 +228,13 @@ update_status ModulePhysics::PostUpdate()
 		while (storageEnemics != NULL) {
 
 			if (storageEnemics->data->rectangle) {
-				if (!storageEnemics->data->water) {
-					SDL_Rect rect = { storageEnemics->data->x,storageEnemics->data->y,storageEnemics->data->w,storageEnemics->data->h };
-					App->renderer->DrawQuad(rect, 250, 250, 0);
-				}
-				else if (storageEnemics->data->water) {
-					SDL_Rect rect = { storageEnemics->data->x,storageEnemics->data->y,storageEnemics->data->w,storageEnemics->data->h };
-					App->renderer->DrawQuad(rect, 0, 0, 250);
-				}
+				SDL_Rect rect = { storageEnemics->data->x,storageEnemics->data->y,storageEnemics->data->w,storageEnemics->data->h };
+				App->renderer->DrawQuad(rect, 250, 250, 0);
 			}
 
 			storageEnemics = storageEnemics->next;
 		}
 	}
-		
 
 	p2List_item<ObjectDef*>* playerListItem = player.getFirst();
 	while (playerListItem != NULL) {
@@ -312,26 +314,28 @@ void ObjectDef::Drag() {
 
 int ObjectDef::Volume() {
 
-	int vol = ((y + h) /*- y de l'aigua*/) * w;
+	int vol = ((y + (r*r)) - app->scene_intro->aigua->y) * (r*r);
 
 	return vol;
 }
 
 void ObjectDef::Buoyancy() {
 	
-	volume = Volume();
+	if (app->physics->Collision_Rectangle_Detection(f_Rect(x, y, r, r),
+		f_Rect(app->scene_intro->aigua->x, app->scene_intro->aigua->y, app->scene_intro->aigua->w, app->scene_intro->aigua->h))) {
+		volume = Volume();
 
-	fb = f_density * volume * gravity;
+		fb = -f_density * volume * gravity * 0.04;
+	}
+	else
+		fb = 0;
 }
 
 void ObjectDef::Force() {
 
-	//if(terra)
 	fx += fgx + f_Drag;
-	fy += fgy;
-	//else if(aigua)
-	//fx += fgx + f_Drag;
-	//fy += fgy - fb;
+	fy += fgy + fb;
+	
 };
 
 
@@ -530,6 +534,7 @@ void ObjectDef::PhysicUpdate() {
 	Velocity();
 	Acceleration();
 	Integrator_Verlet();
+	LOG("Fy= %f", fy);
 }
 
 void ModulePhysics::CollisionSolver(ObjectDef* b) {

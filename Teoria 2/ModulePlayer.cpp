@@ -104,7 +104,7 @@ update_status ModulePlayer::Update()
 			App->physics->player.getFirst()->data->x-=3;
 
 		}
-		if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) {
+		if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT) {
 
 			App->physics->ball.add(App->physics->createCircle(50, 540, 5));
 			App->physics->ball.getLast()->data->SetPlayerMass(40);

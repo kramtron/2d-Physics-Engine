@@ -65,6 +65,7 @@ public:
 	SDL_Rect rect09;
 
 
+	ObjectDef* aigua = nullptr;
 
 	SDL_Rect planta;
 	int plantaX = 800, plantaY=600;
