@@ -2,7 +2,10 @@
 #include <windows.h>
 #include <stdio.h>
 
-#define gravity 1000.0f
+#define GRAVITY_X 0.0f
+#define GRAVITY_Y 1000.0f
+#define WIND_VX 25.0f
+#define WIND_VY 0.0f
 #define DELTA_TIME 0.0167f
 
 #define LOG(format, ...) log(__FILE__, __LINE__, format, __VA_ARGS__);

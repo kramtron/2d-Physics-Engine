@@ -37,9 +37,10 @@ public:
 
 	float fgx = 0, fgy = 0;
 
-	float v_vent = 25;
+	float f_Drag_x = 0.0f, f_Drag_y = 0.0f;
+	float v_relativa_x = 0.0f, v_relativa_y = 0.0f;
 
-	float f_Drag = 0, densitat = 1, v_relativa_x = 0, superficie_Drag = 0.3f, cd = 0.2f;
+	float densitat = 1, superficie_Drag = 0.3f, cd = 0.2f;
 
 	//fb = f_density * volume * 9.81
 	//density of water = 1g/cm^3 = 1000kg/m^3

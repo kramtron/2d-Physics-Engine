@@ -291,8 +291,8 @@ void ObjectDef::Gravity() {
 
 	//Gravedad basica
 	
-	fgx = mass * 0.0f;
-	fgy = mass * gravity;
+	fgx = mass * GRAVITY_X;
+	fgy = mass * GRAVITY_Y;
 	
 
 };
@@ -302,11 +302,11 @@ void ObjectDef::Drag() {
 
 	//vel relativa del obj
 	
-	v_relativa_x = v_vent - vx;
-
+	v_relativa_x = WIND_VX - vx;
+	v_relativa_y = WIND_VY - vy;
 	//Drag del proj
 								//modul del vector de vel relativa 
-	f_Drag = 0.5 * densitat * (v_relativa_x * v_relativa_x) * superficie_Drag * cd;
+	float f_Drag = 0.5 * densitat * (v_relativa_x * v_relativa_x) * superficie_Drag * cd;
 								//velocitat vectorial del vent - la del objecte
 
 	//falta calcular el vector de velocitat relativa x i y (nomes tinc x), ferlos unitaris i aconseguir la força final
@@ -334,7 +334,7 @@ void ObjectDef::Buoyancy() {
 		f_Rect(app->scene_intro->aigua->x, app->scene_intro->aigua->y, app->scene_intro->aigua->w, app->scene_intro->aigua->h))) {
 		volume = Volume();
 
-		fb = -f_density * volume * gravity;
+		fb = -f_density * volume * GRAVITY_Y;
 		LOG("volume = %.2f", volume);
 	}
 	else
@@ -343,8 +343,8 @@ void ObjectDef::Buoyancy() {
 
 void ObjectDef::Force() {
 
-	fx += fgx + f_Drag;
-	fy += fgy + fb;
+	fx += fgx + f_Drag_x;
+	fy += fgy + f_Drag_y + fb;
 	
 };
 
@@ -538,8 +538,8 @@ void ObjectDef::PhysicUpdate() {
 	}
 	//LOG("Force %.2f", fy);
 	Gravity();
-	//Drag();
 	Buoyancy();
+	Drag();	//es calcula la ultima abans de fer el sumatori de forces
 	Force();
 	Velocity();
 	Acceleration();
