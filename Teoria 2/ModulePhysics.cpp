@@ -301,17 +301,33 @@ void ObjectDef::Gravity() {
 void ObjectDef::Drag() {
 
 	//vel relativa del obj
-	
 	v_relativa_x = WIND_VX - vx;
 	v_relativa_y = WIND_VY - vy;
-	//Drag del proj
-								//modul del vector de vel relativa 
-	float f_Drag = 0.5 * densitat * (v_relativa_x * v_relativa_x) * superficie_Drag * cd;
-								//velocitat vectorial del vent - la del objecte
 
-	//falta calcular el vector de velocitat relativa x i y (nomes tinc x), ferlos unitaris i aconseguir la força final
-	//que es f_Drag x = f_Drag * vel relativa x(unitaria)
-	//		 f_Drag y = f_Drag * vel relativa y(unitaria)
+	//modul del vector v_relativa
+	float v_relativa = sqrt((v_relativa_x * v_relativa_x) + (v_relativa_y * v_relativa_y));
+		
+	//drag extra a l'aigua
+	int water_cd = 0;
+	if (fb == 0) {
+		water_cd = 500;
+	}
+	else {
+		water_cd = 2000;
+	}
+
+	//modul de la força de drag
+	float f_Drag = 0.5 * densitat * v_relativa * superficie_Drag * cd * water_cd;
+	
+	//vector unitari de les velocitats relatives
+	v_relativa_x = v_relativa_x / v_relativa;
+	v_relativa_y = v_relativa_y / v_relativa;
+
+	//f_drag separada
+	f_Drag_x = f_Drag * v_relativa_x;
+	f_Drag_y = f_Drag * v_relativa_y;
+	
+
 	LOG("Drag: %f", f_Drag);
 
 }
@@ -531,11 +547,14 @@ void ObjectDef::PhysicUpdate() {
 	fx = fy = 0.0f;
 	ax = ay = 0.0f;
 	fb = 0.0f;
+	f_Drag_x = f_Drag_y = 0.0f;
+
 	if (force)
 	{
 		fy = 1000000;
 		force = false;
 	}
+
 	//LOG("Force %.2f", fy);
 	Gravity();
 	Buoyancy();
