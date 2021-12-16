@@ -305,16 +305,25 @@ void ObjectDef::Drag() {
 	v_relativa_x = v_vent - vx;
 
 	//Drag del proj
-
+								//modul del vector de vel relativa 
 	f_Drag = 0.5 * densitat * (v_relativa_x * v_relativa_x) * superficie_Drag * cd;
+								//velocitat vectorial del vent - la del objecte
 
+	//falta calcular el vector de velocitat relativa x i y (nomes tinc x), ferlos unitaris i aconseguir la força final
+	//que es f_Drag x = f_Drag * vel relativa x(unitaria)
+	//		 f_Drag y = f_Drag * vel relativa y(unitaria)
 	LOG("Drag: %f", f_Drag);
 
 }
 
 int ObjectDef::Volume() {
-
-	int vol = ((y + (r*r)) - app->scene_intro->aigua->y) * (r*r);
+	int vol = 0;
+	if ((y - r) > app->scene_intro->aigua->y) {
+		vol = 4 * r * r;
+	}
+	else {
+		vol = (y + r - app->scene_intro->aigua->y) * (r + r);
+	}
 
 	return vol;
 }
@@ -325,7 +334,8 @@ void ObjectDef::Buoyancy() {
 		f_Rect(app->scene_intro->aigua->x, app->scene_intro->aigua->y, app->scene_intro->aigua->w, app->scene_intro->aigua->h))) {
 		volume = Volume();
 
-		fb = -f_density * volume * gravity * 0.04;
+		fb = -f_density * volume * gravity;
+		LOG("volume = %.2f", volume);
 	}
 	else
 		fb = 0;
@@ -520,13 +530,13 @@ void ObjectDef::StopPhysics() {
 void ObjectDef::PhysicUpdate() {
 	fx = fy = 0.0f;
 	ax = ay = 0.0f;
-
+	fb = 0.0f;
 	if (force)
 	{
 		fy = 1000000;
 		force = false;
 	}
-	LOG("Force %.2f", fy);
+	//LOG("Force %.2f", fy);
 	Gravity();
 	//Drag();
 	Buoyancy();
@@ -534,7 +544,7 @@ void ObjectDef::PhysicUpdate() {
 	Velocity();
 	Acceleration();
 	Integrator_Verlet();
-	LOG("Fy= %f", fy);
+	//LOG("Fy= %f", fy);
 }
 
 void ModulePhysics::CollisionSolver(ObjectDef* b) {
