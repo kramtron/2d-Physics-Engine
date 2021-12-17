@@ -219,8 +219,27 @@ void ModulePlayer::ObjectUpdate() {
 
 		switch (currentObject->data->objectType) {
 		case Type::GRENADE:
-			//Explode Grenade
 			
+			//Explode Grenade
+			if (currentObject->data->lifeTime <= 0) {
+				SDL_Rect rect = { int(currentObject->data->object->x) - currentObject->data->explosionRadius,
+								  int(currentObject->data->object->y) - currentObject->data->explosionRadius,
+								  2 * currentObject->data->explosionRadius,
+								  2 * currentObject->data->explosionRadius };
+
+				App->renderer->DrawQuad( rect, 255, 150, 0, 255, false);
+
+				p2List_item<ObjectDef*>* currentPlayer = App->physics->player.getFirst();
+				while (currentPlayer != NULL) {
+					if (App->physics->Collision_Rectangle_Detection(rect, f_Rect(currentPlayer->data->x, currentPlayer->data->y,
+																				 currentPlayer->data->w, currentPlayer->data->h))) {
+						//player hurt
+						//App->renderer->DrawQuad(rect, 0, 250, 0, 255, false);
+					}
+					currentPlayer = currentPlayer->next;
+				}
+			}
+
 			break;
 		case Type::ROCKET:
 

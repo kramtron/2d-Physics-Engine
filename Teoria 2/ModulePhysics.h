@@ -168,6 +168,7 @@ public:
 	void Collision_BallEnemy(ObjectDef* b, ObjectDef* e);
 	void Collision_PlayerEnemy(ObjectDef* p, ObjectDef* e);
 	bool Collision_Rectangle_Detection(f_Rect r1, f_Rect r2);
+	bool Collision_Rectangle_Detection(SDL_Rect r1, f_Rect r2);
 
 private:
 

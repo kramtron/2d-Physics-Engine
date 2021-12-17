@@ -673,3 +673,7 @@ void ModulePhysics::Collision_PlayerEnemy(ObjectDef* p, ObjectDef* e) {	//ball a
 bool ModulePhysics::Collision_Rectangle_Detection(f_Rect r1, f_Rect r2) {
 	return (((r1.x + r1.w) > r2.x) && (r1.x < (r2.x + r2.w)) && ((r1.y + r1.h) > r2.y) && (r1.y < (r2.y + r2.h)));
 }
+
+bool ModulePhysics::Collision_Rectangle_Detection(SDL_Rect r1, f_Rect r2) {
+	return (((r1.x + r1.w) > r2.x) && (r1.x < (r2.x + r2.w)) && ((r1.y + r1.h) > r2.y) && (r1.y < (r2.y + r2.h)));
+}
