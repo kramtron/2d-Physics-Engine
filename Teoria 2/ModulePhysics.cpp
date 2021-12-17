@@ -301,8 +301,8 @@ void ObjectDef::Gravity() {
 void ObjectDef::Drag() {
 
 	//vel relativa del obj
-	v_relativa_x = WIND_VX - vx;
-	v_relativa_y = WIND_VY - vy;
+	v_relativa_x = app->physics->wind_X - vx;
+	v_relativa_y = app->physics->wind_Y - vy;
 
 	//modul del vector v_relativa
 	float v_relativa = sqrt((v_relativa_x * v_relativa_x) + (v_relativa_y * v_relativa_y));

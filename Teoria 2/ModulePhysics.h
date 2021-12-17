@@ -156,6 +156,9 @@ public:
 
 	float x = 0;
 
+	float wind_X = 5;
+	float wind_Y = 5;
+
 	//ObjectDef* OnCollisions(p2List<ObjectDef*>object1, p2List<ObjectDef*> object2);
 
 	//Calcula los colliders de los objetos No tocar
