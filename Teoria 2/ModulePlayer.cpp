@@ -106,7 +106,8 @@ update_status ModulePlayer::Update()
 		}
 		if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT) {
 
-			App->physics->ball.add(App->physics->createCircle(50, 540, 5));
+			//App->physics->ball.add(App->physics->createCircle(50, 540, 5));
+			CreateObject(50, 540, 5, Type::GRENADE);
 			App->physics->ball.getLast()->data->SetPlayerMass(40);
 			//Dispara laa pelota desde la posicion del player
 			App->physics->ball.getLast()->data->SetPlayerPosition((App->physics->player.getFirst()->data->x + App->physics->player.getFirst()->data->w),
@@ -218,9 +219,9 @@ update_status ModulePlayer::PostUpdate() {
 	return UPDATE_CONTINUE;
 }
 
-
-
-
-
-
-
+ModulePlayer::Object* ModulePlayer::CreateObject(int x, int y, int r, Type type) {
+	ObjectDef* b = App->physics->createCircle(x, y, r);
+	App->physics->ball.add(b);
+	Object* a = new Object(b, type);
+	objects.add(a);
+}

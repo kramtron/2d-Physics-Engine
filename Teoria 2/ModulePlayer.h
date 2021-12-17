@@ -1,27 +1,47 @@
 #pragma once
 #include "Module.h"
+#include "Application.h"
 #include "Animation.h"
+#include "ModulePhysics.h"
 #include "Globals.h"
 #include <string>
 
 using namespace std;
 
-#define max_Objects 20
-
-struct Object
-{
-	SDL_Texture* graphic;
-	PhysBody* body;
-	uint fx;
-
-	Object() : graphic(NULL), body(NULL)
-	{}
-};
-
-
 class ModulePlayer : public Module
 {
 public:
+
+	enum class Type { GRENADE, ROCKET }objectType;
+
+	class Object {
+	public:
+		ObjectDef* object = nullptr;
+		Type objectType;
+		int lifeTime = 0;
+		SDL_Rect sprite;
+
+	public:
+		Object(ObjectDef* object, Type objectType){
+			this->object = object;
+			this->objectType = objectType;
+			
+			switch(objectType){
+			case Type::GRENADE:
+				this->sprite = {0, 0, 0, 0};
+				this->lifeTime = 300;
+				break;
+			case Type::ROCKET:
+				this->sprite = { 0, 0, 0, 0 };
+				this->lifeTime = 1000;
+				break;
+			}
+		}
+	};
+	p2List<Object*> objects;
+
+	Object* CreateObject(int x, int y, int r, Type type);
+
 	ModulePlayer(Application* app, bool start_enabled = true);
 	virtual ~ModulePlayer();
 
