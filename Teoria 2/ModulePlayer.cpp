@@ -224,4 +224,5 @@ ModulePlayer::Object* ModulePlayer::CreateObject(int x, int y, int r, Type type)
 	App->physics->ball.add(b);
 	Object* a = new Object(b, type);
 	objects.add(a);
+	return a;
 }
