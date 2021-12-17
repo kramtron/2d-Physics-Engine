@@ -185,27 +185,14 @@ update_status ModulePlayer::Update()
 	}
 	
 
-
-
-	
-
-	
-	
-
 	if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN) {
 		//App->physics->enemic.add(App->physics->createStaticRectangle(500, 600, 20, -100));
 	}
 	//LOG("Radiants %f: ", radiants);
 
+	//object funtions
+	ObjectUpdate();
 
-	
-
-	//GetPlayerPosition(player);
-
-	
-	
-
-	
 	return UPDATE_CONTINUE;
 }
 
@@ -213,9 +200,6 @@ update_status ModulePlayer::Update()
 update_status ModulePlayer::PostUpdate() {
 
 	
-
-
-
 	return UPDATE_CONTINUE;
 }
 
@@ -225,4 +209,32 @@ ModulePlayer::Object* ModulePlayer::CreateObject(int x, int y, int r, Type type)
 	Object* a = new Object(b, type);
 	objects.add(a);
 	return a;
+}
+
+void ModulePlayer::ObjectUpdate() {
+	
+	p2List_item<Object*>* currentObject = objects.getFirst();
+	while (currentObject != NULL) {
+		currentObject->data->lifeTime--;
+
+		switch (currentObject->data->objectType) {
+		case Type::GRENADE:
+			//Explode Grenade
+			
+			break;
+		case Type::ROCKET:
+
+			break;
+		}
+
+		if (currentObject->data->lifeTime <= 0) {
+			Object* b = currentObject->data;
+			currentObject = currentObject->next;
+			objects.del(objects.findNode(b));
+			App->physics->ball.del(App->physics->ball.findNode(b->object));
+		}
+		else {
+			currentObject = currentObject->next;
+		}
+	}
 }

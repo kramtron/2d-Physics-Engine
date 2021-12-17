@@ -41,6 +41,7 @@ public:
 	p2List<Object*> objects;
 
 	Object* CreateObject(int x, int y, int r, Type type);
+	void ObjectUpdate();
 
 	ModulePlayer(Application* app, bool start_enabled = true);
 	virtual ~ModulePlayer();
