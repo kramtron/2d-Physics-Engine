@@ -56,9 +56,7 @@ update_status ModulePhysics::PreUpdate()
 			App->physics->CollisionSolver(current_ball->data);
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) {
-			current_ball->data->force = true;
-		}
+		
 
 		current_ball = current_ball->next;
 	}

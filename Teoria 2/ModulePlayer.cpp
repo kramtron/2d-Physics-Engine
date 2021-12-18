@@ -104,10 +104,9 @@ update_status ModulePlayer::Update()
 			App->physics->player.getFirst()->data->x-=3;
 
 		}
-		if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN) {//Puedes cambiar entre las 2 armas. Se tiene que descomentar la parte comentada para que funcione. 
-			//No descomentar hasta que los 2 tipos de armas esten inplemtentados porque salta un null si intentas crear un arma de tipo rocket.
+		if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN) {//Puedes cambiar entre las 2 armas. 
 			if (cannonPlayer1.gun == 1) {
-				//cannonPlayer1.gun = 2;
+				cannonPlayer1.gun = 2;
 			}
 			else if (cannonPlayer1.gun == 2) {
 				cannonPlayer1.gun = 1;
@@ -182,10 +181,9 @@ update_status ModulePlayer::Update()
 			App->physics->player.getLast()->data->x -= 3;
 
 		}
-		if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN) {//Puedes cambiar entre las 2 armas. Se tiene que descomentar la parte comentada para que funcione. 
-			//No descomentar hasta que los 2 tipos de armas esten inplemtentados porque salta un null si intentas crear un arma de tipo rocket.
+		if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN) {//Puedes cambiar entre las 2 armas. 
 			if (cannonPlayer2.gun == 1) {
-				//cannonPlayer2.gun = 2;
+				cannonPlayer2.gun = 2;
 			}
 			else if (cannonPlayer2.gun == 2) {
 				cannonPlayer2.gun = 1;
@@ -269,6 +267,7 @@ void ModulePlayer::ObjectUpdate() {
 																				 currentPlayer->data->w, currentPlayer->data->h))) {
 						//player hurt
 						//App->renderer->DrawQuad(rect, 0, 250, 0, 255, false);
+
 					}
 					currentPlayer = currentPlayer->next;
 				}
@@ -277,6 +276,20 @@ void ModulePlayer::ObjectUpdate() {
 			break;
 		case Type::ROCKET:
 
+			if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) {
+				currentObject->data->object->force = true;
+			}
+			SDL_Rect rect = {currentObject->data->object->x,currentObject->data->object->y,currentObject->data->object->w,currentObject->data->object->h };
+			p2List_item<ObjectDef*>* currentPlayer = App->physics->player.getFirst();
+			while (currentPlayer != NULL) {
+				if (App->physics->Collision_Rectangle_Detection(rect, f_Rect(currentPlayer->data->x, currentPlayer->data->y,
+					currentPlayer->data->w, currentPlayer->data->h))) {
+					//player hurt
+					//App->renderer->DrawQuad(rect, 0, 250, 0, 255, false);
+
+				}
+				currentPlayer = currentPlayer->next;
+			}
 			break;
 		}
 
