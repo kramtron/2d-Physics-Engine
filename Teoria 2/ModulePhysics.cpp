@@ -289,8 +289,8 @@ void ObjectDef::Gravity() {
 
 	//Gravedad basica
 	
-	fgx = mass * GRAVITY_X;
-	fgy = mass * GRAVITY_Y;
+	fgx = mass * app->physics->gravity_X;
+	fgy = mass * app->physics->gravity_Y;
 	
 
 };
@@ -348,7 +348,7 @@ void ObjectDef::Buoyancy() {
 		f_Rect(app->scene_intro->aigua->x, app->scene_intro->aigua->y, app->scene_intro->aigua->w, app->scene_intro->aigua->h))) {
 		volume = Volume();
 
-		fb = -f_density * volume * GRAVITY_Y;
+		fb = -f_density * volume * app->physics->gravity_Y;
 		LOG("volume = %.2f", volume);
 	}
 	else
@@ -431,118 +431,6 @@ void ObjectDef::Integrator_Verlet() {
 	vy += (ay * DELTA_TIME);
 	//LOG("Delta Time :%f", DELTA_TIME);
 }
-/*ObjectDef* ModulePhysics::OnCollisions(p2List<ObjectDef*> Object1, p2List<ObjectDef*> object2) {
-	
-	p2List_item<ObjectDef*>* Storage1 = Object1.getFirst();
-	while (Storage1 != NULL) {
-		p2List_item<ObjectDef*>* Storage2 = object2.getFirst();
-		while (Storage2!=NULL) {
-			Colliders(Storage1, Storage2, 90);
-			Storage2 = Storage2->next;
-		}
-		Storage1 = Storage1->next;
-	}
-	
-	ObjectDef* def = nullptr;
-	return def;
-
-}*/
-ObjectDef* ModulePhysics::Colliders(p2List_item<ObjectDef*>* bala, p2List_item<ObjectDef*>* object2,int a) {
-	//Mira si el primer objeto es un player
-		if (bala->data->player) {
-			//bala->data->cr = 0,6;
-			//Mira si colisiona con el suelo. Mas adelante se tiene que hacer que el suelo sea parte de object2
-			/*if (bala->data->y + bala->data->h > App->player->floor.y) {
-				bala->data->y += App->player->floor.y - (bala->data->y + bala->data->h);
-				bala->data->vy = (- bala->data->vy * bala->data->cr)/bala->data->mass;
-				bala->data->vx = bala->data->vx * bala->data->cf;
-
-			}*/
-			if (bala->data->y > App->player->floor.y) {
-				bala->data->y += App->player->floor.y - (bala->data->y + bala->data->h);
-				bala->data->vy = (- bala->data->vy * bala->data->cr);
-				bala->data->vx = bala->data->vx * bala->data->cf;
-
-			}
-			//Mira si está colidiendo con algun objeto del mapa
-			if ((bala->data->x > object2->data->x && bala->data->x < (object2->data->x + object2->data->w))
-				&& (bala->data->y > object2->data->y && bala->data->y < (object2->data->y + object2->data->h))
-				|| ((bala->data->x + bala->data->w) > object2->data->x && (bala->data->x + bala->data->w) < (object2->data->x + object2->data->w))
-				&& (bala->data->y > object2->data->y && bala->data->y < (object2->data->y + object2->data->h))) {
-
-				//Colision por el Lado izquierdo
-				if ((bala->data->x + bala->data->w) - (object2->data->w / 2) < (object2->data->x) /* && bala->data->y < (object2->data->y + object2->data->h) && bala->data->y > object2->data->y */) {
-
-
-					bala->data->x += object2->data->x - (bala->data->x + bala->data->w);
-
-					bala->data->vy = -bala->data->vy * bala->data->cr;
-					bala->data->vx = -bala->data->vx * bala->data->cf;
-
-					bala->data->vx = ((cos(a * M_PI / 180) * -(bala->data->vx)) + (-sin(a * M_PI / 180) * bala->data->vy));
-					bala->data->vy = (sin(a * M_PI / 180) * -bala->data->vx) + (cos(a * M_PI / 180) * bala->data->vy);
-				}
-				//Colision por el Lado derecho
-				if (bala->data->x + (object2->data->w / 2) > (object2->data->x + object2->data->w) /* && (object2->data->y + object2->data->h) < object2->data->h && bala->data->y > object2->data->y*/) {
-
-					bala->data->x -= bala->data->x - (object2->data->x + object2->data->w);
-
-					bala->data->vy = -bala->data->vy * bala->data->cr;
-					bala->data->vx = bala->data->vx * bala->data->cf;
-
-					bala->data->vx = (cos(a * M_PI / 180) * bala->data->vx) + (-sin(a * M_PI / 180) * bala->data->vy);
-					bala->data->vy = (sin(a * M_PI / 180) * bala->data->vx) + (cos(a * M_PI / 180) * bala->data->vy);
-				}
-
-			}
-		}
-		else {
-
-
-			if (bala->data->y > App->player->floor.y) {
-				bala->data->y += App->player->floor.y - bala->data->y;
-				bala->data->vy = -bala->data->vy * bala->data->cr;
-				bala->data->vx = bala->data->vx * bala->data->cf;
-			}
-			if ((bala->data->x > object2->data->x && bala->data->x < (object2->data->x + object2->data->w))
-				&& (bala->data->y > object2->data->y && bala->data->y < (object2->data->y + object2->data->h))) {
-
-				
-				if (bala->data->x - (object2->data->w / 2) < (object2->data->x) /* && bala->data->y < (object2->data->y + object2->data->h) && bala->data->y > object2->data->y */) {
-
-
-					bala->data->x += object2->data->x - (bala->data->x);
-
-					bala->data->vy = -bala->data->vy * bala->data->cr;
-					bala->data->vx = -bala->data->vx * bala->data->cf;
-
-					bala->data->vx = ((cos(a * M_PI / 180) * -(bala->data->vx)) + (-sin(a * M_PI / 180) * bala->data->vy));
-					bala->data->vy = (sin(a * M_PI / 180) * -bala->data->vx) + (cos(a * M_PI / 180) * bala->data->vy);
-				}
-
-				if (bala->data->x + (object2->data->w / 2) > (object2->data->x + object2->data->w) /* && (object2->data->y + object2->data->h) < object2->data->h && bala->data->y > object2->data->y*/) {
-
-					bala->data->x -= bala->data->x - (object2->data->x + object2->data->w);
-
-					bala->data->vy = -bala->data->vy * bala->data->cr;
-					bala->data->vx = bala->data->vx * bala->data->cf;
-
-					bala->data->vx = (cos(a * M_PI / 180) * bala->data->vx) + (-sin(a * M_PI / 180) * bala->data->vy);
-					bala->data->vy = (sin(a * M_PI / 180) * bala->data->vx) + (cos(a * M_PI / 180) * bala->data->vy);
-				}
-
-			}
-		}
-		/*if (bala->data->y > (object2->data->y + (object2->data->h - 10)) && bala->data->y<(object2->data->y + object2->data->h) && bala->data->x >object2->data->x && bala->data->x<object2->data->x + object2->data->w) {
-			bala->data->y += object2->data->y - bala->data->y;
-			bala->data->vy = -bala->data->vy * bala->data->cr;
-			bala->data->vx = bala->data->vx * bala->data->cf;
-		}*/
-
-	
-	ObjectDef* def=nullptr;
-	return def;
-}
 
 void ObjectDef::StopPhysics() {
 	if (physEnable) {
@@ -570,9 +458,19 @@ void ObjectDef::PhysicUpdate() {
 	Force();
 	Velocity();
 	Acceleration();
-	Integrator_Verlet();
-	Integrator_Euler_Forward();
-	Integrator_Euler_Backward();
+
+	switch (app->physics->integrator) {
+	case ModulePhysics::Integrator_Type::VERLET:
+		Integrator_Verlet();
+		break;
+	case ModulePhysics::Integrator_Type::EULER_FORW:
+		Integrator_Euler_Forward();
+		break;
+	case ModulePhysics::Integrator_Type::EULER_BACK:
+		Integrator_Euler_Backward();
+		break;
+	}
+
 	//LOG("Fy= %f", fy);
 	fx = fy = 0.0f;
 	ax = ay = 0.0f;

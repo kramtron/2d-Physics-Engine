@@ -161,11 +161,14 @@ public:
 	//ObjectDef* object2;
 	int obectNum = 2;
 	enum class Type { circle, rectangle }circle = Type::circle, rectangle = Type::rectangle;
+	enum class Integrator_Type { VERLET, EULER_FORW, EULER_BACK }integrator = Integrator_Type::VERLET;
 
 	float x = 0;
 
 	float wind_X = 5;
 	float wind_Y = 5;
+	float gravity_X = 0;
+	float gravity_Y = 1000;
 
 	//ObjectDef* OnCollisions(p2List<ObjectDef*>object1, p2List<ObjectDef*> object2);
 
