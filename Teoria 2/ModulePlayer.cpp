@@ -101,7 +101,10 @@ update_status ModulePlayer::Update()
 
 		}
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-			App->physics->player.getFirst()->data->x-=3;
+			/*App->physics->player.getFirst()->data->SetForce(-10, 0);
+			App->physics->player.getFirst()->data->SetForce(-100000, 0);*/
+			App->physics->player.getFirst()->data->x -= 3;
+
 
 		}
 		if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN) {//Puedes cambiar entre las 2 armas. 
@@ -133,7 +136,7 @@ update_status ModulePlayer::Update()
 
 		}
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
-			App->physics->player.getFirst()->data->SetForce(0, 100);
+			//App->physics->player.getFirst()->data->SetForce(0, 100);
 			App->physics->player.getFirst()->data->SetVelocity(0,-500);
 		}
 	}
@@ -210,7 +213,7 @@ update_status ModulePlayer::Update()
 
 		}
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
-			App->physics->player.getLast()->data->SetForce(0, 100);
+			//App->physics->player.getLast()->data->SetForce(0, 100);
 			App->physics->player.getLast()->data->SetVelocity(0, -500);
 		}
 	}

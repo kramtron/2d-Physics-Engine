@@ -542,10 +542,7 @@ void ObjectDef::StopPhysics() {
 }
 
 void ObjectDef::PhysicUpdate() {
-	fx = fy = 0.0f;
-	ax = ay = 0.0f;
-	fb = 0.0f;
-	f_Drag_x = f_Drag_y = 0.0f;
+	
 
 	if (force)
 	{
@@ -562,6 +559,10 @@ void ObjectDef::PhysicUpdate() {
 	Acceleration();
 	Integrator_Verlet();
 	//LOG("Fy= %f", fy);
+	fx = fy = 0.0f;
+	ax = ay = 0.0f;
+	fb = 0.0f;
+	f_Drag_x = f_Drag_y = 0.0f;
 }
 
 void ModulePhysics::CollisionSolver(ObjectDef* b) {
