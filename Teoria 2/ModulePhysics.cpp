@@ -403,14 +403,27 @@ void ObjectDef::SetForce(int x, int y) {
 };
 
 
+void ObjectDef::Integrator_Euler_Forward() {
+	
+	vx += (ax * (DELTA_TIME));
+	vy += (ay * (DELTA_TIME));
+	x += (vx * (DELTA_TIME));
+	y += (vy * (DELTA_TIME));
+
+}
 
 
+void ObjectDef::Integrator_Euler_Backward() {
+	
+	x += (vx * (DELTA_TIME));
+	y += (vy * (DELTA_TIME));
+	vx += (ax * (DELTA_TIME));
+	vy += (ay * (DELTA_TIME));
 
-
+}
 
 
 void ObjectDef::Integrator_Verlet() {
-
 
 	x += (vx * DELTA_TIME) + (0.5f * ax) * (DELTA_TIME) * (DELTA_TIME);
 	y += (vy * DELTA_TIME) + (0.5f * ay) * (DELTA_TIME) * (DELTA_TIME);
@@ -558,6 +571,8 @@ void ObjectDef::PhysicUpdate() {
 	Velocity();
 	Acceleration();
 	Integrator_Verlet();
+	Integrator_Euler_Forward();
+	Integrator_Euler_Backward();
 	//LOG("Fy= %f", fy);
 	fx = fy = 0.0f;
 	ax = ay = 0.0f;

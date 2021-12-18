@@ -123,6 +123,12 @@ private:
 
 	//Integrador por verlet
 	void Integrator_Verlet();
+
+	//Integrador por forward euler
+	void Integrator_Euler_Forward();
+
+	//Integrador por backward euler
+	void Integrator_Euler_Backward();
 public:
 	//Funcion para calcular todas las fuerzas del objeto LLamar siempre que el objeto no sea estatico
 	void PhysicUpdate();
