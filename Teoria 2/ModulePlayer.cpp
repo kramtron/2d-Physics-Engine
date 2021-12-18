@@ -277,9 +277,14 @@ void ModulePlayer::ObjectUpdate() {
 							App->physics->player.del(App->physics->player.findNode(b));
 							App->physics->ball.del(App->physics->ball.findNode(b));
 						}
+						else {
+							currentPlayer = currentPlayer->next;
+						}
 						//App->renderer->DrawQuad(rect, 0, 250, 0, 255, false);
 					}
-					currentPlayer = currentPlayer->next;
+					else {
+						currentPlayer = currentPlayer->next;
+					}
 				}
 			}
 
