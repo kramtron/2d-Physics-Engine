@@ -61,21 +61,20 @@ update_status ModuleSceneIntro::Update()
 			&& mouse.y>leftInactiveArrow.y && mouse.y < (leftInactiveArrow.y + leftInactiveArrow.h)) {
 
 			App->renderer->DrawQuad(leftActiveArrow, 116, 190, 227);
-			if (App->input->GetMouseButtonDown(1 /*MOUSEEVENTF_LEFTDOWN*/) == KEY_DOWN) {
-				leftArrow = true;
+			if (App->input->GetMouseButtonDown(1) == KEY_DOWN) {
+				App->renderer->DrawQuad(leftActiveArrow, 255, 0, 0);
+				App->physics->wind_X -= 100;
+				
 			}
+			
 
 
 		}
 		else {
-			if (!leftArrow) {
 				App->renderer->DrawQuad(leftInactiveArrow, 112, 33, 166);
-			}
+			
 		}
-		if (leftArrow) {
-			App->renderer->DrawQuad(leftActiveArrow, 116, 190, 227);
-
-		}
+		
 		SDL_Rect rightInactiveArrow = { 900,60,40,20 };
 		SDL_Rect rightActiveArrow = { 900,60,40,20 };
 
@@ -83,23 +82,67 @@ update_status ModuleSceneIntro::Update()
 			&& mouse.y>rightInactiveArrow.y && mouse.y < (rightInactiveArrow.y + rightInactiveArrow.h)) {
 
 			App->renderer->DrawQuad(rightInactiveArrow, 116, 190, 227);
-			if (App->input->GetMouseButtonDown(1 /*MOUSEEVENTF_LEFTDOWN*/) == KEY_DOWN) {
-				rightArrow = true;
+			if (App->input->GetMouseButtonDown(1) == KEY_DOWN) {
+				App->renderer->DrawQuad(rightActiveArrow, 255, 0, 0);
+				App->physics->wind_X += 100;
 			}
 
 
 		}
 		else {
-			if (!rightArrow) {
+			
 				App->renderer->DrawQuad(rightInactiveArrow, 112, 33, 166);
-			}
+			
 		}
-		if (rightArrow) {
-			App->renderer->DrawQuad(rightInactiveArrow, 116, 190, 227);
+
+
+
+
+		SDL_Rect upInactiveArrow = { 700,20,20,40 };
+		SDL_Rect upActiveArrow = { 700,20,20,40 };
+		mouse.x = App->input->GetMouseX();
+		mouse.y = App->input->GetMouseY();
+
+		if (mouse.x > upInactiveArrow.x && mouse.x<(upInactiveArrow.x + upInactiveArrow.w)
+			&& mouse.y>upInactiveArrow.y && mouse.y < (upInactiveArrow.y + upInactiveArrow.h)) {
+
+			App->renderer->DrawQuad(upInactiveArrow, 116, 190, 227);
+			if (App->input->GetMouseButtonDown(1) == KEY_DOWN) {
+				App->renderer->DrawQuad(upInactiveArrow, 255, 0, 0);
+				App->physics->gravity_Y -= 100;
+
+			}
+
+
+
+		}
+		else {
+			App->renderer->DrawQuad(upInactiveArrow, 112, 33, 166);
+
+		}
+
+		SDL_Rect downInactiveArrow = { 700,90,20,40 };
+		SDL_Rect downtActiveArrow = { 700,90,20,40 };
+
+		if (mouse.x > downInactiveArrow.x && mouse.x<(downInactiveArrow.x + downInactiveArrow.w)
+			&& mouse.y>downInactiveArrow.y && mouse.y < (downInactiveArrow.y + downInactiveArrow.h)) {
+
+			App->renderer->DrawQuad(downInactiveArrow, 116, 190, 227);
+			if (App->input->GetMouseButtonDown(1) == KEY_DOWN) {
+				App->renderer->DrawQuad(downInactiveArrow, 255, 0, 0);
+				App->physics->gravity_Y += 100;
+			}
+
+
+		}
+		else {
+
+			App->renderer->DrawQuad(downInactiveArrow, 112, 33, 166);
 
 		}
 		//current_ball = current_ball->next;
-	
+		LOG("Wind %.2f", App->physics->wind_X/10);
+		LOG("Gravity %.2f", App->physics->gravity_Y/100);
 	return UPDATE_CONTINUE;
 }
 update_status ModuleSceneIntro::PostUpdate() 
