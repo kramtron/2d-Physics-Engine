@@ -266,8 +266,15 @@ void ModulePlayer::ObjectUpdate() {
 					if (App->physics->Collision_Rectangle_Detection(rect, f_Rect(currentPlayer->data->x, currentPlayer->data->y,
 																				 currentPlayer->data->w, currentPlayer->data->h))) {
 						//player hurt
+						//Por el momento funciona mal
+						currentPlayer->data->hp -= currentObject->data->damage;
+						if (currentPlayer->data->hp <= 0) {
+							ObjectDef* b = currentPlayer->data;
+							currentPlayer = currentPlayer->next;
+							App->physics->player.del(App->physics->player.findNode(b));
+							App->physics->ball.del(App->physics->ball.findNode(b));
+						}
 						//App->renderer->DrawQuad(rect, 0, 250, 0, 255, false);
-
 					}
 					currentPlayer = currentPlayer->next;
 				}
@@ -285,7 +292,7 @@ void ModulePlayer::ObjectUpdate() {
 				if (App->physics->Collision_Rectangle_Detection(rect, f_Rect(currentPlayer->data->x, currentPlayer->data->y,
 					currentPlayer->data->w, currentPlayer->data->h))) {
 					//player hurt
-					
+					//Por el momento funciona mal
 					currentPlayer->data->hp -= currentObject->data->damage;
 					if (currentPlayer->data->hp <= 0) {
 						ObjectDef* b = currentPlayer->data;
