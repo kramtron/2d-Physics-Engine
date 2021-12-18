@@ -64,7 +64,12 @@ public:
 	SDL_Rect rect08;
 	SDL_Rect rect09;
 
+	struct Mouse {
+		int x, y;
+	}mouse;
 
+	bool leftArrow = false;
+	bool rightArrow = false;
 	ObjectDef* aigua = nullptr;
 
 	SDL_Rect planta;

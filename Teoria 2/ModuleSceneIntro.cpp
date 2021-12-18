@@ -47,8 +47,59 @@ bool ModuleSceneIntro::Start()
 // Update: drabackground
 update_status ModuleSceneIntro::Update()
 {
+	/*p2List_item<ObjectDef*>* current_ball = App->physics->ball.getFirst();
+	while (current_ball != NULL)*/
+	
 
 
+		SDL_Rect leftInactiveArrow = { 800,60,40,20 };
+		SDL_Rect leftActiveArrow = { 800,60,40,20 };
+		mouse.x = App->input->GetMouseX();
+		mouse.y = App->input->GetMouseY();
+
+		if (mouse.x > leftInactiveArrow.x && mouse.x<(leftInactiveArrow.x + leftInactiveArrow.w)
+			&& mouse.y>leftInactiveArrow.y && mouse.y < (leftInactiveArrow.y + leftInactiveArrow.h)) {
+
+			App->renderer->DrawQuad(leftActiveArrow, 116, 190, 227);
+			/*if (App->input->GetMouseButtonDown(MOUSEEVENTF_LEFTDOWN) == KEY_DOWN) {
+				leftArrow = true;
+			}*/
+
+
+		}
+		else {
+			if (!leftArrow) {
+				App->renderer->DrawQuad(leftInactiveArrow, 112, 33, 166);
+			}
+		}
+		if (leftArrow) {
+			App->renderer->DrawQuad(leftActiveArrow, 116, 190, 227);
+
+		}
+		SDL_Rect rightInactiveArrow = { 900,60,40,20 };
+		SDL_Rect rightActiveArrow = { 900,60,40,20 };
+
+		if (mouse.x > rightInactiveArrow.x && mouse.x<(rightInactiveArrow.x + rightInactiveArrow.w)
+			&& mouse.y>rightInactiveArrow.y && mouse.y < (rightInactiveArrow.y + rightInactiveArrow.h)) {
+
+			App->renderer->DrawQuad(rightInactiveArrow, 116, 190, 227);
+			/*if (App->input->GetMouseButtonDown(MOUSEEVENTF_LEFTDOWN) == KEY_DOWN) {
+				leftArrow = true;
+			}*/
+
+
+		}
+		else {
+			if (!rightArrow) {
+				App->renderer->DrawQuad(rightInactiveArrow, 112, 33, 166);
+			}
+		}
+		if (rightArrow) {
+			App->renderer->DrawQuad(rightInactiveArrow, 116, 190, 227);
+
+		}
+		//current_ball = current_ball->next;
+	
 	return UPDATE_CONTINUE;
 }
 update_status ModuleSceneIntro::PostUpdate() 
