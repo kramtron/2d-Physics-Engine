@@ -118,14 +118,13 @@ update_status ModulePlayer::Update()
 			switch (cannonPlayer1.gun)
 			{
 			case 1:
-				CreateObject(50, 540, 5, Type::GRENADE);
+				CreateObject(50, 540, 5,40, Type::GRENADE);
 				break;
 			case 2:
-				CreateObject(50, 540, 5, Type::ROCKET);
+				CreateObject(50, 540, 5,40, Type::ROCKET);
 				break;
 			}
 			//App->physics->ball.add(App->physics->createCircle(50, 540, 5));
-			App->physics->ball.getLast()->data->SetPlayerMass(40);
 			//Dispara laa pelota desde la posicion del player
 			App->physics->ball.getLast()->data->SetPlayerPosition((App->physics->player.getFirst()->data->x + App->physics->player.getFirst()->data->w),
 				App->physics->player.getFirst()->data->y);
@@ -197,14 +196,13 @@ update_status ModulePlayer::Update()
 			switch (cannonPlayer2.gun)
 			{
 			case 1:
-				CreateObject(50, 540, 5, Type::GRENADE);
+				CreateObject(50, 540, 5,40, Type::GRENADE);
 				break;
 			case 2:
-				CreateObject(50, 540, 5, Type::ROCKET);
+				CreateObject(50, 540, 5,40, Type::ROCKET);
 				break;
 			}
 
-			App->physics->ball.getLast()->data->SetPlayerMass(40);
 			//Dispara laa pelota desde la posicion del player
 			App->physics->ball.getLast()->data->SetPlayerPosition((App->physics->player.getLast()->data->x),
 				App->physics->player.getLast()->data->y);
@@ -238,8 +236,9 @@ update_status ModulePlayer::PostUpdate() {
 	return UPDATE_CONTINUE;
 }
 
-ModulePlayer::Object* ModulePlayer::CreateObject(int x, int y, int r, Type type) {
+ModulePlayer::Object* ModulePlayer::CreateObject(int x, int y, int r,int mass, Type type) {
 	ObjectDef* b = App->physics->createCircle(x, y, r);
+	b->mass = mass;
 	App->physics->ball.add(b);
 	Object* a = new Object(b, type);
 	objects.add(a);

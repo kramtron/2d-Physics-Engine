@@ -43,7 +43,7 @@ public:
 	};
 	p2List<Object*> objects;
 
-	Object* CreateObject(int x, int y, int r, Type type);
+	Object* CreateObject(int x, int y, int r, int mass, Type type);
 	void ObjectUpdate();
 
 	ModulePlayer(Application* app, bool start_enabled = true);
