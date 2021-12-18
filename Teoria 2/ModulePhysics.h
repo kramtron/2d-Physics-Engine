@@ -166,8 +166,8 @@ public:
 
 	float deltaTime = 0.0167f;
 
-	float wind_X = 5;
-	float wind_Y = 5;
+	float wind_X = 0;
+	float wind_Y = 0;
 	float gravity_X = 0;
 	float gravity_Y = 1000;
 
