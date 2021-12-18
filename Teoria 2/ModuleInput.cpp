@@ -8,6 +8,7 @@ ModuleInput::ModuleInput(Application* app, bool start_enabled) : Module(app, sta
 {
 	keyboard = new KEY_STATE[MAX_KEYS];
 	memset(keyboard, KEY_IDLE, sizeof(KEY_STATE) * MAX_KEYS);
+	memset(mouseButtons, KEY_IDLE, sizeof(KEY_STATE) * NUM_MOUSE_BUTTONS);
 }
 
 // Destructor
@@ -35,6 +36,8 @@ bool ModuleInput::Init()
 // Called every draw update
 update_status ModuleInput::PreUpdate()
 {
+	static SDL_Event event;
+
 	SDL_PumpEvents();
 
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
@@ -56,6 +59,30 @@ update_status ModuleInput::PreUpdate()
 				keyboard[i] = KEY_IDLE;
 		}
 	}
+
+	for (int i = 0; i < NUM_MOUSE_BUTTONS; ++i)
+	{
+		if (mouseButtons[i] == KEY_DOWN)
+			mouseButtons[i] = KEY_REPEAT;
+
+		if (mouseButtons[i] == KEY_UP)
+			mouseButtons[i] = KEY_IDLE;
+	}
+
+	while (SDL_PollEvent(&event) != 0) {
+		switch (event.type) {
+		case SDL_MOUSEBUTTONDOWN:
+			mouseButtons[event.button.button - 1] = KEY_DOWN;
+			//LOG("Mouse button %d down", event.button.button-1);
+			break;
+
+		case SDL_MOUSEBUTTONUP:
+			mouseButtons[event.button.button - 1] = KEY_UP;
+			//LOG("Mouse button %d up", event.button.button-1);
+			break;
+		}
+	}
+
 
 	if(keyboard[SDL_SCANCODE_ESCAPE] == KEY_UP)
 		return UPDATE_STOP;

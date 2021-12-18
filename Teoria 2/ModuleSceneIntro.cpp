@@ -61,9 +61,9 @@ update_status ModuleSceneIntro::Update()
 			&& mouse.y>leftInactiveArrow.y && mouse.y < (leftInactiveArrow.y + leftInactiveArrow.h)) {
 
 			App->renderer->DrawQuad(leftActiveArrow, 116, 190, 227);
-			/*if (App->input->GetMouseButtonDown(MOUSEEVENTF_LEFTDOWN) == KEY_DOWN) {
+			if (App->input->GetMouseButtonDown(1 /*MOUSEEVENTF_LEFTDOWN*/) == KEY_DOWN) {
 				leftArrow = true;
-			}*/
+			}
 
 
 		}
@@ -83,9 +83,9 @@ update_status ModuleSceneIntro::Update()
 			&& mouse.y>rightInactiveArrow.y && mouse.y < (rightInactiveArrow.y + rightInactiveArrow.h)) {
 
 			App->renderer->DrawQuad(rightInactiveArrow, 116, 190, 227);
-			/*if (App->input->GetMouseButtonDown(MOUSEEVENTF_LEFTDOWN) == KEY_DOWN) {
-				leftArrow = true;
-			}*/
+			if (App->input->GetMouseButtonDown(1 /*MOUSEEVENTF_LEFTDOWN*/) == KEY_DOWN) {
+				rightArrow = true;
+			}
 
 
 		}
