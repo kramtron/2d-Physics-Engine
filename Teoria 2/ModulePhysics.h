@@ -147,7 +147,6 @@ public:
 	//1 en water en caso de querer que ese collider sea agua
 	ObjectDef* createStaticRectangle(float x, float y, float w, float h,float water=0);//Crea un rectangulo sin fisicas
 	ObjectDef* createDinamicPlayer(float x, float y, float w, float h, float mass,float hp);//Crea un rectangulo con fisicas
-	ObjectDef* UpdatePhysics();//No fet
 
 	
 	bool Start();
@@ -165,6 +164,8 @@ public:
 
 	float x = 0;
 
+	float deltaTime = 0.0167f;
+
 	float wind_X = 5;
 	float wind_Y = 5;
 	float gravity_X = 0;
@@ -173,7 +174,6 @@ public:
 	//ObjectDef* OnCollisions(p2List<ObjectDef*>object1, p2List<ObjectDef*> object2);
 
 	//Calcula los colliders de los objetos No tocar
-	ObjectDef* Colliders(p2List_item<ObjectDef*>* object, p2List_item<ObjectDef*>* object2,int a);
 	void CollisionSolver(ObjectDef* b);
 	void Collision_BallBall(ObjectDef* b, ObjectDef* b2);
 	void Collision_BallEnemy(ObjectDef* b, ObjectDef* e);
