@@ -65,6 +65,8 @@ public:
 	bool water = false;
 
 	bool force = false;
+
+	float hp;
 public:
 	
 	ObjectDef();
@@ -138,7 +140,7 @@ public:
 
 	//1 en water en caso de querer que ese collider sea agua
 	ObjectDef* createStaticRectangle(float x, float y, float w, float h,float water=0);//Crea un rectangulo sin fisicas
-	ObjectDef* createDinamicPlayer(float x, float y, float w, float h, float mass);//Crea un rectangulo con fisicas
+	ObjectDef* createDinamicPlayer(float x, float y, float w, float h, float mass,float hp);//Crea un rectangulo con fisicas
 	ObjectDef* UpdatePhysics();//No fet
 
 	

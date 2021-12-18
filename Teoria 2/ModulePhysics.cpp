@@ -35,8 +35,8 @@ bool ModulePhysics::Start()
 	//enemic.add(createStaticRectangle(700, 0, 40, 300));
 	//enemic.add(createStaticRectangle(580, 0, 40, 100));
 
-	player.add(App->physics->createDinamicPlayer(300, 440, 30, 60,40));
-	player.add(App->physics->createDinamicPlayer(800, 440, 30, 60,10));
+	player.add(App->physics->createDinamicPlayer(300, 440, 30, 60,40,20));
+	player.add(App->physics->createDinamicPlayer(800, 440, 30, 60,10,20));
 	/*player.add(createStaticRectangle(300, 00, 30, 60));
 	player.add(createStaticRectangle(800, 00, 30, 60));*/
 	return true;
@@ -120,7 +120,7 @@ ObjectDef* ModulePhysics::createStaticRectangle(float x, float y, float w,float 
 
 }
 
-ObjectDef* ModulePhysics::createDinamicPlayer(float x, float y, float w, float h, float mass) {
+ObjectDef* ModulePhysics::createDinamicPlayer(float x, float y, float w, float h, float mass,float hp) {
 	ObjectDef* pobject = new ObjectDef();
 
 	pobject->app = App;

@@ -21,6 +21,7 @@ public:
 		int lifeTime = 0;
 		SDL_Rect sprite;
 		int explosionRadius = 0;
+		int damage;
 
 	public:
 		Object(ObjectDef* object, Type objectType){
@@ -32,11 +33,13 @@ public:
 				this->sprite = {0, 0, 0, 0};
 				this->lifeTime = 100;
 				this->explosionRadius = 50;
+				this->damage = 10;
 				break;
 			case Type::ROCKET:
 				this->sprite = { 0, 0, 0, 0 };
 				this->lifeTime = 1000;
 				this->explosionRadius = 5;
+				this->damage = 10;
 				break;
 			}
 		}
