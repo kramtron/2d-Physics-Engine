@@ -242,9 +242,26 @@ update_status ModulePhysics::PostUpdate()
 	}
 			
 		
-	
-	
-			
+	if ((App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN) && deltaTime == 0.0167f)
+	{
+		deltaTime = 0.0333f;
+	}
+	else
+	{
+		deltaTime = 0.0167f;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
+	{
+		if (integrator == Integrator_Type::EULER_FORW)
+			integrator = Integrator_Type::VERLET;
+
+		else if (integrator == Integrator_Type::VERLET)
+			integrator = Integrator_Type::EULER_BACK;
+
+		else if (integrator == Integrator_Type::EULER_BACK)
+			integrator = Integrator_Type::EULER_FORW;
+	}
 
 	return UPDATE_CONTINUE;
 }
