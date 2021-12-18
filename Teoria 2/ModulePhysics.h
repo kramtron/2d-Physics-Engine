@@ -112,9 +112,6 @@ private:
 
 	int Volume();
 
-	//Calcula la velocidad de los objetos No tocar
-	void Velocity();
-
 	//Calcula la acceleracion de los objetos No tocar
 	void Acceleration();
 

@@ -145,7 +145,7 @@ ObjectDef* ModulePhysics::createDinamicPlayer(float x, float y, float w, float h
 update_status ModulePhysics::PostUpdate()
 {
 	//Codigo que borra una bola cunaod toca a un enemigo. No funciona por el momento
-	if (App->player->playerNum == 1) {
+	/*if (App->player->playerNum == 1) {
 		p2List_item<ObjectDef*>* bala = ball.getFirst();
 		p2List_item<ObjectDef*>* object2 = player.getLast();
 		bool exit = false;
@@ -186,7 +186,7 @@ update_status ModulePhysics::PostUpdate()
 
 			}
 		}
-	}
+	}*/
 
 		
 
@@ -377,15 +377,6 @@ void ObjectDef::Force() {
 	fx += fgx + f_Drag_x;
 	fy += fgy + f_Drag_y + fb;
 	
-};
-
-
-
-
-void ObjectDef::Velocity() {
-
-	
-
 }
 
 
@@ -473,7 +464,6 @@ void ObjectDef::PhysicUpdate() {
 	Buoyancy();
 	Drag();	//es calcula la ultima abans de fer el sumatori de forces
 	Force();
-	Velocity();
 	Acceleration();
 
 	switch (app->physics->integrator) {

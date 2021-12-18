@@ -53,6 +53,8 @@ public:
 
 	bool CleanUp();
 
+	void FontDraw(int score, int n, int posX, int posY, int separacio, float scale);
+
 public:
 	SDL_Rect rect01;
 	SDL_Rect rect02;
@@ -80,6 +82,8 @@ public:
 	int randNumMove = 0;
 
 	SDL_Texture* graphics;
+	SDL_Texture* nombres;
+
 	PhysBody* background;
 
 	Bouncer bouncer1;
