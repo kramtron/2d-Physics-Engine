@@ -60,12 +60,15 @@ public:
 	struct Cannon {
 		int velocity=500;
 		int angle=0;
+		int gun=1;
+
 	};
 	Cannon cannonPlayer1;
 	Cannon cannonPlayer2;
 	float radiants;
 	
 	int playerNum = 1;// Num 1 player 1, num 2 player 2
+
 public:
 
 	SDL_Rect playerRect;

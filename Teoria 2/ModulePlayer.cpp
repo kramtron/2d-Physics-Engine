@@ -104,10 +104,27 @@ update_status ModulePlayer::Update()
 			App->physics->player.getFirst()->data->x-=3;
 
 		}
+		if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN) {//Puedes cambiar entre las 2 armas. Se tiene que descomentar la parte comentada para que funcione. 
+			//No descomentar hasta que los 2 tipos de armas esten inplemtentados porque salta un null si intentas crear un arma de tipo rocket.
+			if (cannonPlayer1.gun == 1) {
+				//cannonPlayer1.gun = 2;
+			}
+			else if (cannonPlayer1.gun == 2) {
+				cannonPlayer1.gun = 1;
+			}
+		}
 		if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT) {
-
+			//Dependiendo del tipo de arma que hayas elegido en el if de la linea 107 te crea un tipo u otro de proyectil
+			switch (cannonPlayer1.gun)
+			{
+			case 1:
+				CreateObject(50, 540, 5, Type::GRENADE);
+				break;
+			case 2:
+				CreateObject(50, 540, 5, Type::ROCKET);
+				break;
+			}
 			//App->physics->ball.add(App->physics->createCircle(50, 540, 5));
-			CreateObject(50, 540, 5, Type::GRENADE);
 			App->physics->ball.getLast()->data->SetPlayerMass(40);
 			//Dispara laa pelota desde la posicion del player
 			App->physics->ball.getLast()->data->SetPlayerPosition((App->physics->player.getFirst()->data->x + App->physics->player.getFirst()->data->w),
@@ -166,9 +183,27 @@ update_status ModulePlayer::Update()
 			App->physics->player.getLast()->data->x -= 3;
 
 		}
+		if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN) {//Puedes cambiar entre las 2 armas. Se tiene que descomentar la parte comentada para que funcione. 
+			//No descomentar hasta que los 2 tipos de armas esten inplemtentados porque salta un null si intentas crear un arma de tipo rocket.
+			if (cannonPlayer2.gun == 1) {
+				//cannonPlayer2.gun = 2;
+			}
+			else if (cannonPlayer2.gun == 2) {
+				cannonPlayer2.gun = 1;
+			}
+		}
 		if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) {
+			//Dependiendo del tipo de arma que hayas elegido en el if de la linea 107 te crea un tipo u otro de proyectil
+			switch (cannonPlayer2.gun)
+			{
+			case 1:
+				CreateObject(50, 540, 5, Type::GRENADE);
+				break;
+			case 2:
+				CreateObject(50, 540, 5, Type::ROCKET);
+				break;
+			}
 
-			App->physics->ball.add(App->physics->createCircle(50, 540, 5));
 			App->physics->ball.getLast()->data->SetPlayerMass(40);
 			//Dispara laa pelota desde la posicion del player
 			App->physics->ball.getLast()->data->SetPlayerPosition((App->physics->player.getLast()->data->x),
