@@ -98,9 +98,9 @@ int main(int argc, char ** argv)
 		auto telapsed = chrono::duration_cast<chrono::milliseconds>(end - start).count();
 		//LOG("dt: %f", dt);
 		//Entra si hay diferencia de tiempo
-		if ((DELTA_TIME - telapsed) > 0.0f)
+		if ((App->physics->deltaTime - telapsed) > 0.0f)
 			//Para el programa el tiempo restante
-			Sleep((DELTA_TIME - telapsed));
+			Sleep((App->physics->deltaTime - telapsed));
 	}
 
 	delete App;
