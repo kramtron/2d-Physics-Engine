@@ -146,7 +146,13 @@ update_status ModuleSceneIntro::Update()
 
 		//Font Drawing
 		//need dt, player selected, windx, windy, gravityx, gravityy, shot angle, shot velocity
-		FontDraw(App->physics->wind_X, 5, 300, 100, 24, 0.7);
+		FontDraw(App->physics->deltaTime, 5, 300, 60, 16, 0.5);
+		FontDraw(App->physics->wind_X, 5, 300, 100, 16, 0.5);
+		FontDraw(App->physics->wind_Y, 5, 300, 130, 16, 0.5);
+		FontDraw(App->physics->gravity_X/100, 5, 300, 160, 16, 0.5);
+		FontDraw(App->physics->gravity_Y/100, 5, 300, 190, 16, 0.5);
+		FontDraw(App->player->cannonPlayer1.angle, 5, 300, 220, 16, 0.5);
+		FontDraw(App->player->cannonPlayer1.velocity, 5, 300, 250, 16, 0.5);
 
 	return UPDATE_CONTINUE;
 }
