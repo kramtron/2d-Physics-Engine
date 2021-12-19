@@ -172,7 +172,6 @@ void ModuleSceneIntro::FontDraw(int score, int n, int posX, int posY, int separa
 		score = -score;
 	}
 
-	int initialPosX = posX;
 	int scoreCopia = score;
 	int scoreArray[10];	//max numbers
 	for (int j = 0; j < n; ++j) {
@@ -190,6 +189,7 @@ void ModuleSceneIntro::FontDraw(int score, int n, int posX, int posY, int separa
 	SDL_Rect rect7 = { 82, 65, 26, 40 };
 	SDL_Rect rect8 = { 140, 65, 31, 40 };
 	SDL_Rect rect9 = { 199, 65, 32, 40 };
+	SDL_Rect rect_ = { 0, 113, 31, 11 };
 
 	for (int k = 0; k < n; ++k) {
 
@@ -228,5 +228,8 @@ void ModuleSceneIntro::FontDraw(int score, int n, int posX, int posY, int separa
 
 		posX -= separacio; //Separació entre nombres
 	}
-	posX = initialPosX; //Posició del primer element de la dreta
+
+	if (!positive) {
+		App->renderer->Blit(nombres, posX, posY + 10, &rect_, scale);
+	}
 }
