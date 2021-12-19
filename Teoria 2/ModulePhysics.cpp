@@ -476,7 +476,11 @@ void ObjectDef::StopPhysics() {
 }
 
 void ObjectDef::PhysicUpdate() {
-	
+	fx = fy = 0.0f;
+	ax = ay = 0.0f;
+	fb = 0.0f;
+	f_Drag_x = f_Drag_y = 0.0f;
+	colliding = false;
 
 	if (force)
 	{
@@ -504,10 +508,7 @@ void ObjectDef::PhysicUpdate() {
 	}
 
 	//LOG("Fy= %f", fy);
-	fx = fy = 0.0f;
-	ax = ay = 0.0f;
-	fb = 0.0f;
-	f_Drag_x = f_Drag_y = 0.0f;
+	
 }
 
 void ModulePhysics::CollisionSolver(ObjectDef* b) {
@@ -564,17 +565,7 @@ void ModulePhysics::Collision_BallEnemy(ObjectDef* b, ObjectDef* e) {	//ball aga
 			b->vy = -b->vy * b->cr;
 			b->vx = b->vx * b->cr;
 		}
-		/*else {
-			if (b->vy > 0) { //floor colision
-				b->y = e->y - b->r;
-			}
-			else {	//ceiling colision
-				b->y = e->y + e->h + b->r;
-			}
-
-			b->vy = -b->vy * b->cr;
-			b->vx = -b->vx * b->cr;
-		}*/
+		b->colliding = true;
 	}
 }
 

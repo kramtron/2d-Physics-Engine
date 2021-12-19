@@ -264,7 +264,6 @@ void ModulePlayer::ObjectUpdate() {
 					if (App->physics->Collision_Rectangle_Detection(rect, f_Rect(currentPlayer->data->x, currentPlayer->data->y,
 																				 currentPlayer->data->w, currentPlayer->data->h))) {
 						//player hurt
-						//Por el momento funciona mal
 						currentPlayer->data->hp -= currentObject->data->damage;
 						if (currentPlayer->data->hp <= 0) {
 							ObjectDef* b = currentPlayer->data;
@@ -275,7 +274,7 @@ void ModulePlayer::ObjectUpdate() {
 						else {
 							currentPlayer = currentPlayer->next;
 						}
-						//App->renderer->DrawQuad(rect, 0, 250, 0, 255, false);
+						App->renderer->DrawQuad(rect, 250, 100, 0, 255, false);
 					}
 					else {
 						currentPlayer = currentPlayer->next;
@@ -289,18 +288,9 @@ void ModulePlayer::ObjectUpdate() {
 			if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) {
 				currentObject->data->object->force = true;
 			}
-			
-			f_Rect rectBola (currentObject->data->object->x - currentObject->data->object->r,
-							 currentObject->data->object->y - currentObject->data->object->r,
-							 2 * currentObject->data->object->r, 2 * currentObject->data->object->r);
 
-			p2List_item<ObjectDef*>* currentPlayer = App->physics->player.getFirst();
-			while (currentPlayer != NULL) {
-				if (App->physics->Collision_Rectangle_Detection(rectBola, f_Rect(currentPlayer->data->x, currentPlayer->data->y,
-					currentPlayer->data->w, currentPlayer->data->h))) {
-					currentObject->data->lifeTime = 0;
-				}
-				currentPlayer = currentPlayer->next;
+			if (currentObject->data->object->colliding) {
+				currentObject->data->lifeTime = 0;
 			}
 
 			if (currentObject->data->lifeTime <= 0) {
@@ -321,11 +311,16 @@ void ModulePlayer::ObjectUpdate() {
 							App->physics->player.del(App->physics->player.findNode(b));
 							App->physics->ball.del(App->physics->ball.findNode(b));
 						}
+						else {
+							currentPlayer = currentPlayer->next;
+						}
 						App->renderer->DrawQuad(rect, 0, 250, 0, 255, false);
 
 
 					}
-					currentPlayer = currentPlayer->next;
+					else {
+						currentPlayer = currentPlayer->next;
+					}
 				}
 				App->renderer->DrawQuad(rect, 0, 250, 0, 255, false);
 			}

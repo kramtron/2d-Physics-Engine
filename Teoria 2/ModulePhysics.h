@@ -66,6 +66,8 @@ public:
 
 	bool force = false;
 
+	bool colliding = false;
+
 	float hp;
 public:
 	
