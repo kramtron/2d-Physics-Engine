@@ -139,11 +139,18 @@ update_status ModuleSceneIntro::Update()
 			App->renderer->DrawQuad(downInactiveArrow, 112, 33, 166);
 
 		}
+
 		//current_ball = current_ball->next;
 		LOG("Wind %.2f", App->physics->wind_X/10);
 		LOG("Gravity %.2f", App->physics->gravity_Y/100);
+
+		//Font Drawing
+		//need dt, player selected, windx, windy, gravityx, gravityy, shot angle, shot velocity
+		FontDraw(App->physics->wind_X, 5, 300, 100, 24, 0.7);
+
 	return UPDATE_CONTINUE;
 }
+
 update_status ModuleSceneIntro::PostUpdate() 
 {
 
@@ -159,9 +166,15 @@ bool ModuleSceneIntro::CleanUp()
 }
 
 void ModuleSceneIntro::FontDraw(int score, int n, int posX, int posY, int separacio, float scale) {
+	bool positive = true;
+	if (score < 0) {
+		positive = false;
+		score = -score;
+	}
+
 	int initialPosX = posX;
 	int scoreCopia = score;
-	int scoreArray[4];
+	int scoreArray[10];	//max numbers
 	for (int j = 0; j < n; ++j) {
 		scoreArray[j] = scoreCopia % 10;
 		scoreCopia /= 10;
