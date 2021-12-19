@@ -39,6 +39,10 @@ bool ModulePhysics::Start()
 	player.add(App->physics->createDinamicPlayer(800, 440, 30, 60,10,20));
 	/*player.add(createStaticRectangle(300, 00, 30, 60));
 	player.add(createStaticRectangle(800, 00, 30, 60));*/
+
+	activePlayer = App->textures->Load("Assets/player_actiu.png");
+	inactivePlayer = App->textures->Load("Assets/player_no_actiu.png");
+
 	return true;
 }
 
@@ -236,13 +240,26 @@ update_status ModulePhysics::PostUpdate()
 		}
 	}
 
-	p2List_item<ObjectDef*>* playerListItem = player.getFirst();
+	/*p2List_item<ObjectDef*>* playerListItem = player.getFirst();
 	while (playerListItem != NULL) {
 		SDL_Rect rect = { playerListItem->data->x,playerListItem->data->y,playerListItem->data->w,playerListItem->data->h };
 		App->renderer->DrawQuad(rect, 250, 250, 40);
 		playerListItem = playerListItem->next;
 	}
-			
+	*/
+	if (App->player->playerNum == 1) {
+		App->renderer->Blit(activePlayer, player.getFirst()->data->x, player.getFirst()->data->y);
+		App->renderer->Blit(inactivePlayer, player.getLast()->data->x, player.getLast()->data->y);
+	}
+	if (App->player->playerNum == 2) {
+		App->renderer->Blit(activePlayer, player.getLast()->data->x, player.getLast()->data->y);
+		App->renderer->Blit(inactivePlayer, player.getFirst()->data->x, player.getFirst()->data->y);
+	}
+	if (App->player->playerNum == 3|| App->player->playerNum == 4) {
+		App->renderer->Blit(inactivePlayer, player.getFirst()->data->x, player.getFirst()->data->y);
+		App->renderer->Blit(inactivePlayer, player.getLast()->data->x, player.getLast()->data->y);
+	}
+	
 		
 	if ((App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN) && deltaTime == 0.0167f)
 	{

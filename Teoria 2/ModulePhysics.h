@@ -180,6 +180,10 @@ public:
 	bool Collision_Rectangle_Detection(f_Rect r1, f_Rect r2);
 	bool Collision_Rectangle_Detection(SDL_Rect r1, f_Rect r2);
 
+
+	SDL_Texture* activePlayer;
+	SDL_Texture* inactivePlayer;
+
 private:
 
 	bool debug;
