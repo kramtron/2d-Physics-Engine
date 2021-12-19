@@ -37,8 +37,8 @@ Forces applied to the objects of the scene:
 
 
 Group Members:
-Gerard Ramon
-Biel Rabasa
-Roger Salas
+- Gerard Ramon
+- Biel Rabasa
+- Roger Salas
 
 Project Link [https://github.com/kramtron/2d-Physics-Engine]
