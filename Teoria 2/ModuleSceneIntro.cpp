@@ -222,7 +222,7 @@ update_status ModuleSceneIntro::Update()
 			SDL_Rect a_g = { 36, 69, 535, 60 };
 			App->renderer->Blit(arma, 10, 290, &a_g, 0.3);
 		}
-		else if (App->player->cannonPlayer1.gun == 2)
+		else if (App->player->cannonPlayer2.gun == 2)
 		{
 			SDL_Rect a_c = { 36, 141, 535, 60 };
 			App->renderer->Blit(arma, 10, 290, &a_c, 0.3);
