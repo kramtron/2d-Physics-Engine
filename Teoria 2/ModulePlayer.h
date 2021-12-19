@@ -72,6 +72,9 @@ public:
 	
 	int playerNum = 1;// Num 1 player 1, num 2 player 2
 
+	bool end = false;
+
+	int gameStoped = 0;
 public:
 
 	SDL_Rect playerRect;
