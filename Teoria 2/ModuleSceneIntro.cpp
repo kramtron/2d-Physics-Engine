@@ -209,6 +209,11 @@ update_status ModuleSceneIntro::Update()
 			App->renderer->Blit(f_p_s, 10, 255, &fps30, 0.3);
 		}
 
+		SDL_Rect f_g = { 861, 140, 40, 55 };
+		App->renderer->Blit(vari, 697, 62, &f_g, 0.5);
+
+		SDL_Rect f_w = { 966, 284, 55, 55 };
+		App->renderer->Blit(vari, 855, 55, &f_w, 0.5);
 
 	return UPDATE_CONTINUE;
 }
