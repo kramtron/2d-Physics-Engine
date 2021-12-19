@@ -87,6 +87,7 @@ public:
 	SDL_Texture* vari;
 	SDL_Texture* inter;
 	SDL_Texture* f_p_s;
+	SDL_Texture* arma;
 
 	PhysBody* background;
 

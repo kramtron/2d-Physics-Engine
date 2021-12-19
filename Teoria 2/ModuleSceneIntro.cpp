@@ -25,6 +25,8 @@ bool ModuleSceneIntro::Start()
 	vari = App->textures->Load("Assets/variables.png");
 	inter = App->textures->Load("Assets/integradors.png");
 	f_p_s = App->textures->Load("Assets/fps.png");
+	arma = App->textures->Load("Assets/armas.png");
+
 	//Suelos
 	App->physics->enemic.add(App->physics->createStaticRectangle(75, 500, 250, 70));
 	App->physics->enemic.add(App->physics->createStaticRectangle(700, 500, 250, 70));
@@ -214,6 +216,20 @@ update_status ModuleSceneIntro::Update()
 
 		SDL_Rect f_w = { 966, 284, 55, 55 };
 		App->renderer->Blit(vari, 855, 55, &f_w, 0.5);
+
+		if (App->player->cannonPlayer1.gun == 1)
+		{
+			SDL_Rect a_g = { 36, 69, 535, 60 };
+			App->renderer->Blit(arma, 10, 290, &a_g, 0.3);
+		}
+		else if (App->player->cannonPlayer1.gun == 2)
+		{
+			SDL_Rect a_c = { 36, 141, 535, 60 };
+			App->renderer->Blit(arma, 10, 290, &a_c, 0.3);
+		}
+
+		FontDraw(App->physics->player.getFirst()->data->hp, 5, App->physics->player.getFirst()->data->x + 35, App->physics->player.getFirst()->data->y - 20, 16, 0.4);
+		FontDraw(App->physics->player.getLast()->data->hp, 5, App->physics->player.getLast()->data->x + 35, App->physics->player.getLast()->data->y - 20, 16, 0.4);
 
 	return UPDATE_CONTINUE;
 }
