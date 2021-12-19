@@ -53,6 +53,7 @@ public:
 
 	bool CleanUp();
 
+	//Number, digit number, position X, position Y, number separation, scale.
 	void FontDraw(int score, int n, int posX, int posY, int separacio, float scale);
 
 public:
