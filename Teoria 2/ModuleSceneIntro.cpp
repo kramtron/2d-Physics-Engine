@@ -23,14 +23,15 @@ bool ModuleSceneIntro::Start()
 
 	nombres = App->textures->Load("Assets/numeros.png");
 	vari = App->textures->Load("Assets/variables.png");
-
+	inter = App->textures->Load("Assets/integradors.png");
+	f_p_s = App->textures->Load("Assets/fps.png");
 	//Suelos
 	App->physics->enemic.add(App->physics->createStaticRectangle(75, 500, 250, 70));
 	App->physics->enemic.add(App->physics->createStaticRectangle(700, 500, 250, 70));
 	App->physics->enemic.add(App->physics->createStaticRectangle(380, 300, 250, 70));
 
 	//Agua
-	aigua = App->physics->createStaticRectangle(0, 505, 1200, 1000, 1);	//y=700 h=100
+	aigua = App->physics->createStaticRectangle(0, 700, 1200, 100, 1);	//y=700 h=100
 
 	srand(time(NULL));
 
@@ -155,11 +156,11 @@ update_status ModuleSceneIntro::Update()
 
 		SDL_Rect g_x = { 861, 140, 380, 55 };
 		App->renderer->Blit(vari,76,10, &g_x, 0.4);
-		SDL_Rect g_y = { 867, 210, 380, 55 };
+		SDL_Rect g_y = { 867, 212, 380, 55 };
 		App->renderer->Blit(vari,76,45, &g_y, 0.4);
-		SDL_Rect w_x = { 966, 280, 276, 55 };
+		SDL_Rect w_x = { 966, 284, 276, 55 };
 		App->renderer->Blit(vari, 115, 80, &w_x, 0.4);
-		SDL_Rect w_y = { 966, 350, 276, 55 };
+		SDL_Rect w_y = { 966, 356, 276, 55 };
 		App->renderer->Blit(vari, 115, 115, &w_y, 0.4);
 
 		if (App->player->playerNum == 1)
@@ -168,14 +169,46 @@ update_status ModuleSceneIntro::Update()
 			FontDraw(App->player->cannonPlayer1.velocity, 5, 326, 185, 16, 0.5);
 			SDL_Rect s_a = { 805, 425, 634, 55 };
 			App->renderer->Blit(vari, 49, 150, &s_a, 0.4);
-			SDL_Rect s_v = { 710, 500, 634, 55 };
+			SDL_Rect s_v = { 710, 502, 634, 55 };
 			App->renderer->Blit(vari, 10, 185, &s_v, 0.4);
 		}
 		else if (App->player->playerNum == 2)
 		{
-			FontDraw(App->player->cannonPlayer2.angle, 5, 300, 220, 16, 0.5);
-			FontDraw(App->player->cannonPlayer2.velocity, 5, 300, 250, 16, 0.5);
+			FontDraw(App->player->cannonPlayer2.angle, 5, 326, 150, 16, 0.5);
+			FontDraw(App->player->cannonPlayer2.velocity, 5, 326, 185, 16, 0.5);
+			SDL_Rect s_a = { 805, 425, 634, 55 };
+			App->renderer->Blit(vari, 49, 150, &s_a, 0.4);
+			SDL_Rect s_v = { 710, 500, 634, 55 };
+			App->renderer->Blit(vari, 10, 185, &s_v, 0.4);
 		}
+
+		if (App->physics->integrator == ModulePhysics::Integrator_Type::VERLET)
+		{
+			SDL_Rect ver = { 24, 214, 1120, 55 };
+			App->renderer->Blit(inter, 10, 220, &ver, 0.3);
+		}
+		else if (App->physics->integrator == ModulePhysics::Integrator_Type::EULER_BACK)
+		{
+			SDL_Rect ver = { 24, 142, 1120, 55 };
+			App->renderer->Blit(inter, 10, 220, &ver, 0.3);
+		}
+		else if (App->physics->integrator == ModulePhysics::Integrator_Type::EULER_FORW)
+		{
+			SDL_Rect ver = { 24, 70, 1120, 55 };
+			App->renderer->Blit(inter, 10, 220, &ver, 0.3);
+		}
+
+		if (App->physics->deltaTime == 0.0167f)
+		{
+			SDL_Rect fps60 = { 24, 69, 1120, 55 };
+			App->renderer->Blit(f_p_s, 10, 255, &fps60, 0.3);
+		}
+		else if (App->physics->deltaTime == 0.0333f)
+		{
+			SDL_Rect fps30 = { 24, 141, 1120, 55 };
+			App->renderer->Blit(f_p_s, 10, 255, &fps30, 0.3);
+		}
+
 
 	return UPDATE_CONTINUE;
 }

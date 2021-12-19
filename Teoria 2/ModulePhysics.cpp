@@ -248,7 +248,7 @@ update_status ModulePhysics::PostUpdate()
 	{
 		deltaTime = 0.0333f;
 	}
-	else
+	else if ((App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN) && deltaTime == 0.0333f)
 	{
 		deltaTime = 0.0167f;
 	}
