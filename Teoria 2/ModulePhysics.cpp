@@ -351,20 +351,34 @@ void ObjectDef::Drag() {
 
 int ObjectDef::Volume() {
 	int vol = 0;
-	if ((y - r) > app->scene_intro->aigua->y) {
-		vol = 4 * r * r;
+	if (player) {
+		if (y > app->scene_intro->aigua->y) {
+			vol = w * h;
+		}
+		else {
+			vol = (y + h - app->scene_intro->aigua->y) * w;
+		}
 	}
 	else {
 		vol = (y + r - app->scene_intro->aigua->y) * (r + r);
 	}
+	
 
 	return vol;
 }
 
 void ObjectDef::Buoyancy() {
-	
-	if (app->physics->Collision_Rectangle_Detection(f_Rect(x, y, r, r),
-		f_Rect(app->scene_intro->aigua->x, app->scene_intro->aigua->y, app->scene_intro->aigua->w, app->scene_intro->aigua->h))) {
+	bool inwater = false;
+	if (player) {
+		inwater = app->physics->Collision_Rectangle_Detection(f_Rect(x, y, w, h),
+			f_Rect(app->scene_intro->aigua->x, app->scene_intro->aigua->y, app->scene_intro->aigua->w, app->scene_intro->aigua->h));
+	}
+	else {
+		inwater = app->physics->Collision_Rectangle_Detection(f_Rect(x, y, r, r),
+			f_Rect(app->scene_intro->aigua->x, app->scene_intro->aigua->y, app->scene_intro->aigua->w, app->scene_intro->aigua->h));
+	}
+
+	if (inwater) {
 		volume = Volume();
 
 		fb = -f_density * volume * app->physics->gravity_Y;
