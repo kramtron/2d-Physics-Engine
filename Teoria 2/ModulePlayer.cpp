@@ -120,16 +120,15 @@ update_status ModulePlayer::Update()
 			switch (cannonPlayer1.gun)
 			{
 			case 1:
-				CreateObject(50, 540, 5,40, Type::GRENADE);
+				CreateObject((App->physics->player.getFirst()->data->x + App->physics->player.getFirst()->data->w + 10), 
+							  App->physics->player.getFirst()->data->y, 5,40, Type::GRENADE);
 				break;
 			case 2:
-				CreateObject(50, 540, 5,40, Type::ROCKET);
+				CreateObject((App->physics->player.getFirst()->data->x + App->physics->player.getFirst()->data->w + 10),
+							  App->physics->player.getFirst()->data->y, 5,40, Type::ROCKET);
 				break;
 			}
 			//App->physics->ball.add(App->physics->createCircle(50, 540, 5));
-			//Dispara laa pelota desde la posicion del player
-			App->physics->ball.getLast()->data->SetPlayerPosition((App->physics->player.getFirst()->data->x + App->physics->player.getFirst()->data->w),
-				App->physics->player.getFirst()->data->y);
 
 			App->physics->ball.getLast()->data->SetVelocity(cannonPlayer1.velocity * cos(-radiants),
 				cannonPlayer1.velocity * sin(-radiants));
@@ -197,16 +196,12 @@ update_status ModulePlayer::Update()
 			switch (cannonPlayer2.gun)
 			{
 			case 1:
-				CreateObject(50, 540, 5,40, Type::GRENADE);
+				CreateObject(App->physics->player.getLast()->data->x, App->physics->player.getLast()->data->y, 5,40, Type::GRENADE);
 				break;
 			case 2:
-				CreateObject(50, 540, 5,40, Type::ROCKET);
+				CreateObject(App->physics->player.getLast()->data->x, App->physics->player.getLast()->data->y, 5,40, Type::ROCKET);
 				break;
 			}
-
-			//Dispara laa pelota desde la posicion del player
-			App->physics->ball.getLast()->data->SetPlayerPosition((App->physics->player.getLast()->data->x),
-				App->physics->player.getLast()->data->y);
 
 			App->physics->ball.getLast()->data->SetVelocity(-(cannonPlayer2.velocity * cos(-radiants)),
 				(cannonPlayer2.velocity * sin(-radiants)));
@@ -294,26 +289,47 @@ void ModulePlayer::ObjectUpdate() {
 			if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) {
 				currentObject->data->object->force = true;
 			}
-			SDL_Rect rect = {currentObject->data->object->x,currentObject->data->object->y,currentObject->data->object->w,currentObject->data->object->h };
+			
+			f_Rect rectBola (currentObject->data->object->x - currentObject->data->object->r,
+							 currentObject->data->object->y - currentObject->data->object->r,
+							 2 * currentObject->data->object->r, 2 * currentObject->data->object->r);
+
 			p2List_item<ObjectDef*>* currentPlayer = App->physics->player.getFirst();
 			while (currentPlayer != NULL) {
-				if (App->physics->Collision_Rectangle_Detection(rect, f_Rect(currentPlayer->data->x, currentPlayer->data->y,
+				if (App->physics->Collision_Rectangle_Detection(rectBola, f_Rect(currentPlayer->data->x, currentPlayer->data->y,
 					currentPlayer->data->w, currentPlayer->data->h))) {
-					//player hurt
-					//Por el momento funciona mal
-					currentPlayer->data->hp -= currentObject->data->damage;
-					if (currentPlayer->data->hp <= 0) {
-						ObjectDef* b = currentPlayer->data;
-						currentPlayer = currentPlayer->next;
-						App->physics->player.del(App->physics->player.findNode(b));
-						App->physics->ball.del(App->physics->ball.findNode(b));
-					}
-					//App->renderer->DrawQuad(rect, 0, 250, 0, 255, false);
-
-
+					currentObject->data->lifeTime = 0;
 				}
 				currentPlayer = currentPlayer->next;
 			}
+
+			if (currentObject->data->lifeTime <= 0) {
+				SDL_Rect rect = { int(currentObject->data->object->x) - currentObject->data->explosionRadius,
+								  int(currentObject->data->object->y) - currentObject->data->explosionRadius,
+								  2 * currentObject->data->explosionRadius,
+								  2 * currentObject->data->explosionRadius };
+				
+				p2List_item<ObjectDef*>* currentPlayer = App->physics->player.getFirst();
+				while (currentPlayer != NULL) {
+					if (App->physics->Collision_Rectangle_Detection(rect, f_Rect(currentPlayer->data->x, currentPlayer->data->y,
+						currentPlayer->data->w, currentPlayer->data->h))) {
+						//player hurt
+						currentPlayer->data->hp -= currentObject->data->damage;
+						if (currentPlayer->data->hp <= 0) {
+							ObjectDef* b = currentPlayer->data;
+							currentPlayer = currentPlayer->next;
+							App->physics->player.del(App->physics->player.findNode(b));
+							App->physics->ball.del(App->physics->ball.findNode(b));
+						}
+						App->renderer->DrawQuad(rect, 0, 250, 0, 255, false);
+
+
+					}
+					currentPlayer = currentPlayer->next;
+				}
+				App->renderer->DrawQuad(rect, 0, 250, 0, 255, false);
+			}
+			
 			break;
 		}
 

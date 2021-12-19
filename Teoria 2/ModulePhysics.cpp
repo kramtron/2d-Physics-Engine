@@ -438,31 +438,31 @@ void ObjectDef::SetForce(int x, int y) {
 
 void ObjectDef::Integrator_Euler_Forward() {
 	
-	vx += (ax * (DELTA_TIME));
-	vy += (ay * (DELTA_TIME));
-	x += (vx * (DELTA_TIME));
-	y += (vy * (DELTA_TIME));
+	vx += (ax * (app->physics->deltaTime));
+	vy += (ay * (app->physics->deltaTime));
+	x += (vx * (app->physics->deltaTime));
+	y += (vy * (app->physics->deltaTime));
 
 }
 
 
 void ObjectDef::Integrator_Euler_Backward() {
 	
-	x += (vx * (DELTA_TIME));
-	y += (vy * (DELTA_TIME));
-	vx += (ax * (DELTA_TIME));
-	vy += (ay * (DELTA_TIME));
+	x += (vx * (app->physics->deltaTime));
+	y += (vy * (app->physics->deltaTime));
+	vx += (ax * (app->physics->deltaTime));
+	vy += (ay * (app->physics->deltaTime));
 
 }
 
 
 void ObjectDef::Integrator_Verlet() {
 
-	x += (vx * DELTA_TIME) + (0.5f * ax) * (DELTA_TIME) * (DELTA_TIME);
-	y += (vy * DELTA_TIME) + (0.5f * ay) * (DELTA_TIME) * (DELTA_TIME);
-	vx += (ax * DELTA_TIME);
-	vy += (ay * DELTA_TIME);
-	//LOG("Delta Time :%f", DELTA_TIME);
+	x += (vx * app->physics->deltaTime) + (0.5f * ax) * (app->physics->deltaTime) * (app->physics->deltaTime);
+	y += (vy * app->physics->deltaTime) + (0.5f * ay) * (app->physics->deltaTime) * (app->physics->deltaTime);
+	vx += (ax * app->physics->deltaTime);
+	vy += (ay * app->physics->deltaTime);
+	//LOG("Delta Time :%f", app->physics->deltaTime);
 }
 
 void ObjectDef::StopPhysics() {
@@ -544,7 +544,7 @@ void ModulePhysics::Collision_BallBall(ObjectDef* b, ObjectDef* b2) {	//ball aga
 
 void ModulePhysics::Collision_BallEnemy(ObjectDef* b, ObjectDef* e) {	//ball against collider(collider sent)
 	if (Collision_Rectangle_Detection(f_Rect(b->x, b->y, b->r, b->r), f_Rect(e->x, e->y, e->w, e->h))) {
-		if (Collision_Rectangle_Detection(f_Rect(b->x, b->y - (b->vy * DELTA_TIME), b->r, b->r), f_Rect(e->x, e->y, e->w, e->h))) {
+		if (Collision_Rectangle_Detection(f_Rect(b->x, b->y - (b->vy * deltaTime), b->r, b->r), f_Rect(e->x, e->y, e->w, e->h))) {
 			if (b->vx > 0) { //Right colision
 				b->x -= 2 * (b->x - (e->x - b->r));
 			}
@@ -554,7 +554,7 @@ void ModulePhysics::Collision_BallEnemy(ObjectDef* b, ObjectDef* e) {	//ball aga
 			b->vy = b->vy * b->cr;
 			b->vx = -b->vx * b->cr;
 		}
-		else if (Collision_Rectangle_Detection(f_Rect(b->x - (b->vx * DELTA_TIME), b->y, b->r, b->r), f_Rect(e->x, e->y, e->w, e->h))) {
+		else if (Collision_Rectangle_Detection(f_Rect(b->x - (b->vx * deltaTime), b->y, b->r, b->r), f_Rect(e->x, e->y, e->w, e->h))) {
 			if (b->vy > 0) { //Floor colision
 				b->y -= 2 * (b->y - (e->y - b->r));
 			}
@@ -580,7 +580,7 @@ void ModulePhysics::Collision_BallEnemy(ObjectDef* b, ObjectDef* e) {	//ball aga
 
 void ModulePhysics::Collision_PlayerEnemy(ObjectDef* p, ObjectDef* e) {	//ball against collider(collider sent)
 	if (Collision_Rectangle_Detection(f_Rect(p->x, p->y, p->w, p->h), f_Rect(e->x, e->y, e->w, e->h))) {
-		if (Collision_Rectangle_Detection(f_Rect(p->x, p->y - (p->vy * DELTA_TIME), p->w, p->h), f_Rect(e->x, e->y, e->w, e->h))) {
+		if (Collision_Rectangle_Detection(f_Rect(p->x, p->y - (p->vy * deltaTime), p->w, p->h), f_Rect(e->x, e->y, e->w, e->h))) {
 			if (p->vx > 0) { //Right colision
 				p->x = (e->x - p->w);
 			}
@@ -590,7 +590,7 @@ void ModulePhysics::Collision_PlayerEnemy(ObjectDef* p, ObjectDef* e) {	//ball a
 			p->vy = p->vy * p->cr;
 			p->vx = -p->vx * p->cr;
 		}
-		else if (Collision_Rectangle_Detection(f_Rect(p->x - (p->vx * DELTA_TIME), p->y, p->w, p->h), f_Rect(e->x, e->y, e->w, e->h))) {
+		else if (Collision_Rectangle_Detection(f_Rect(p->x - (p->vx * deltaTime), p->y, p->w, p->h), f_Rect(e->x, e->y, e->w, e->h))) {
 			if (p->vy > 0) { //Floor colision
 				p->y = (e->y - p->h);
 			}
