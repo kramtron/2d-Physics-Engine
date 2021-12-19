@@ -84,6 +84,7 @@ public:
 
 	SDL_Texture* graphics;
 	SDL_Texture* nombres;
+	SDL_Texture* vari;
 
 	PhysBody* background;
 

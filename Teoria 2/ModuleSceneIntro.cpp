@@ -22,6 +22,7 @@ bool ModuleSceneIntro::Start()
 	bool ret = true;
 
 	nombres = App->textures->Load("Assets/numeros.png");
+	vari = App->textures->Load("Assets/variables.png");
 
 	//Suelos
 	App->physics->enemic.add(App->physics->createStaticRectangle(75, 500, 250, 70));
@@ -146,13 +147,35 @@ update_status ModuleSceneIntro::Update()
 
 		//Font Drawing
 		//need dt, player selected, windx, windy, gravityx, gravityy, shot angle, shot velocity
-		FontDraw(App->physics->deltaTime, 5, 300, 60, 16, 0.5);
-		FontDraw(App->physics->wind_X, 5, 300, 100, 16, 0.5);
-		FontDraw(App->physics->wind_Y, 5, 300, 130, 16, 0.5);
-		FontDraw(App->physics->gravity_X/100, 5, 300, 160, 16, 0.5);
-		FontDraw(App->physics->gravity_Y/100, 5, 300, 190, 16, 0.5);
-		FontDraw(App->player->cannonPlayer1.angle, 5, 300, 220, 16, 0.5);
-		FontDraw(App->player->cannonPlayer1.velocity, 5, 300, 250, 16, 0.5);
+		//FontDraw(App->physics->deltaTime, 5, 300, 60, 16, 0.5);
+		FontDraw(App->physics->wind_X, 5, 326, 80, 16, 0.5);
+		FontDraw(App->physics->wind_Y, 5, 326, 115, 16, 0.5);
+		FontDraw(App->physics->gravity_X/100, 5, 326, 10, 16, 0.5);
+		FontDraw(App->physics->gravity_Y/100, 5, 326, 45, 16, 0.5);
+
+		SDL_Rect g_x = { 861, 140, 380, 55 };
+		App->renderer->Blit(vari,76,10, &g_x, 0.4);
+		SDL_Rect g_y = { 867, 210, 380, 55 };
+		App->renderer->Blit(vari,76,45, &g_y, 0.4);
+		SDL_Rect w_x = { 966, 280, 276, 55 };
+		App->renderer->Blit(vari, 115, 80, &w_x, 0.4);
+		SDL_Rect w_y = { 966, 350, 276, 55 };
+		App->renderer->Blit(vari, 115, 115, &w_y, 0.4);
+
+		if (App->player->playerNum == 1)
+		{
+			FontDraw(App->player->cannonPlayer1.angle, 5, 326, 150, 16, 0.5);
+			FontDraw(App->player->cannonPlayer1.velocity, 5, 326, 185, 16, 0.5);
+			SDL_Rect s_a = { 805, 425, 634, 55 };
+			App->renderer->Blit(vari, 49, 150, &s_a, 0.4);
+			SDL_Rect s_v = { 710, 500, 634, 55 };
+			App->renderer->Blit(vari, 10, 185, &s_v, 0.4);
+		}
+		else if (App->player->playerNum == 2)
+		{
+			FontDraw(App->player->cannonPlayer2.angle, 5, 300, 220, 16, 0.5);
+			FontDraw(App->player->cannonPlayer2.velocity, 5, 300, 250, 16, 0.5);
+		}
 
 	return UPDATE_CONTINUE;
 }
