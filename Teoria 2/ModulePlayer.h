@@ -31,7 +31,7 @@ public:
 			switch(objectType){
 			case Type::GRENADE:
 				this->sprite = {0, 0, 0, 0};
-				this->lifeTime = 100;
+				this->lifeTime = 200;
 				this->explosionRadius = 50;
 				this->damage = 10;
 				break;
@@ -39,7 +39,7 @@ public:
 				this->sprite = { 0, 0, 0, 0 };
 				this->lifeTime = 1000;
 				this->explosionRadius = 5;
-				this->damage = 10;
+				this->damage = 15;
 				break;
 			}
 		}

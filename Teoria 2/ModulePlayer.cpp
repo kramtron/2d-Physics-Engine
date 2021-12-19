@@ -115,7 +115,7 @@ update_status ModulePlayer::Update()
 				cannonPlayer1.gun = 1;
 			}
 		}
-		if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT) {
+		if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) {
 			//Dependiendo del tipo de arma que hayas elegido en el if de la linea 107 te crea un tipo u otro de proyectil
 			switch (cannonPlayer1.gun)
 			{

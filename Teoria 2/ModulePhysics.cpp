@@ -140,6 +140,8 @@ ObjectDef* ModulePhysics::createDinamicPlayer(float x, float y, float w, float h
 
 	pobject->player = true;
 
+	pobject->hp = 50;
+
 	return pobject;
 }
 update_status ModulePhysics::PostUpdate()
