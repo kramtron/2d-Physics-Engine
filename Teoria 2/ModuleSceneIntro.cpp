@@ -239,8 +239,8 @@ update_status ModuleSceneIntro::Update()
 
 		
 
-		FontDraw(App->physics->player.getFirst()->data->hp, 5, App->physics->player.getFirst()->data->x + 35, App->physics->player.getFirst()->data->y - 20, 16, 0.4);
-		FontDraw(App->physics->player.getLast()->data->hp, 5, App->physics->player.getLast()->data->x + 35, App->physics->player.getLast()->data->y - 20, 16, 0.4);
+		FontDraw(App->physics->player.getFirst()->data->hp, 2, App->physics->player.getFirst()->data->x + 17, App->physics->player.getFirst()->data->y - 20, 16, 0.4);
+		FontDraw(App->physics->player.getLast()->data->hp, 2, App->physics->player.getLast()->data->x + 17, App->physics->player.getLast()->data->y - 20, 16, 0.4);
 
 	return UPDATE_CONTINUE;
 }
