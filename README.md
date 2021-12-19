@@ -34,3 +34,11 @@ Forces applied to the objects of the scene:
 - P (stop current elements physics)
 - LEFT PURPLE BUTTONS (increase and decrease Y gravity)
 - RIGHT PURPLE BUTTONS (increase and decrease X wind)
+
+
+Group Members:
+Gerard Ramon
+Biel Rabasa
+Roger Salas
+
+Project Link [https://github.com/kramtron/2d-Physics-Engine]
