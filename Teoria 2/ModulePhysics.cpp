@@ -324,18 +324,22 @@ void ObjectDef::Drag() {
 	//modul del vector v_relativa
 	float v_relativa = sqrt((v_relativa_x * v_relativa_x) + (v_relativa_y * v_relativa_y));
 		
-	//drag extra a l'aigua
-	int water_cd = 0;
+	//drag a l'aigua
+	float f_Drag = 0;
 	if (fb == 0) {
-		water_cd = 500;
+		f_Drag = 0.5 * densitat * v_relativa * superficie_Drag * cd * 500;	//500 air drag coeficient
 	}
-	else {
-		water_cd = 2000;
+	else {	//in water
+		float v = sqrt((vx * vx) + (vy * vy));
+		if (player) {
+			f_Drag = 6.0f * 3.14f * ((w + h) / 4) * v; //radi = mitjana entre (w i h) / 2;
+		}
+		else {
+			f_Drag = 6.0f * 3.14f * r * v;
+		}
 	}
 
 	//modul de la força de drag
-	float f_Drag = 0.5 * densitat * v_relativa * superficie_Drag * cd * water_cd;
-	
 	//vector unitari de les velocitats relatives
 	v_relativa_x = v_relativa_x / v_relativa;
 	v_relativa_y = v_relativa_y / v_relativa;
@@ -360,7 +364,12 @@ int ObjectDef::Volume() {
 		}
 	}
 	else {
-		vol = (y + r - app->scene_intro->aigua->y) * (r + r);
+		if ((y - r) > app->scene_intro->aigua->y) {
+			vol = 4 * r * r;
+		}
+		else {
+			vol = (y + r - app->scene_intro->aigua->y) * (r + r);
+		}
 	}
 	
 
