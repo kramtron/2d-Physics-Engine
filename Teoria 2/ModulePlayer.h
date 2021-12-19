@@ -37,7 +37,7 @@ public:
 				break;
 			case Type::ROCKET:
 				this->sprite = { 0, 0, 0, 0 };
-				this->lifeTime = 1000;
+				this->lifeTime = 500;
 				this->explosionRadius = 5;
 				this->damage = 15;
 				break;
