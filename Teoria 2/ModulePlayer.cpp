@@ -29,7 +29,7 @@ bool ModulePlayer::CleanUp()
 {
 
 	LOG("Unloading player");
-
+	
 	return true;
 }
 
@@ -132,6 +132,7 @@ update_status ModulePlayer::Update()
 
 			App->physics->ball.getLast()->data->SetVelocity(cannonPlayer1.velocity * cos(-radiants),
 				cannonPlayer1.velocity * sin(-radiants));
+			playerNum = 3;
 
 		}
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
@@ -205,6 +206,8 @@ update_status ModulePlayer::Update()
 
 			App->physics->ball.getLast()->data->SetVelocity(-(cannonPlayer2.velocity * cos(-radiants)),
 				(cannonPlayer2.velocity * sin(-radiants)));
+			playerNum = 4;
+
 
 		}
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
@@ -213,6 +216,20 @@ update_status ModulePlayer::Update()
 		}
 	}
 	
+	if (playerNum == 3) {
+		gameStoped++;
+		if (gameStoped == 200) {
+			playerNum = 2;
+			gameStoped = 0;
+		}
+	}
+	if (playerNum == 4) {
+		gameStoped++;
+		if (gameStoped == 200) {
+			playerNum = 1;
+			gameStoped = 0;
+		}
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN) {
 		//App->physics->enemic.add(App->physics->createStaticRectangle(500, 600, 20, -100));
@@ -221,13 +238,15 @@ update_status ModulePlayer::Update()
 
 	//object funtions
 	ObjectUpdate();
-
+	if (end) {
+		return UPDATE_STOP;
+	}
 	return UPDATE_CONTINUE;
 }
 
  
 update_status ModulePlayer::PostUpdate() {
-
+	
 	
 	return UPDATE_CONTINUE;
 }
@@ -270,6 +289,7 @@ void ModulePlayer::ObjectUpdate() {
 							currentPlayer = currentPlayer->next;
 							App->physics->player.del(App->physics->player.findNode(b));
 							App->physics->ball.del(App->physics->ball.findNode(b));
+							end = true;
 						}
 						else {
 							currentPlayer = currentPlayer->next;
@@ -310,6 +330,7 @@ void ModulePlayer::ObjectUpdate() {
 							currentPlayer = currentPlayer->next;
 							App->physics->player.del(App->physics->player.findNode(b));
 							App->physics->ball.del(App->physics->ball.findNode(b));
+							end = true;
 						}
 						else {
 							currentPlayer = currentPlayer->next;
